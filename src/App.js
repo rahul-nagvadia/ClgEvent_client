@@ -15,7 +15,7 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn Akshar
+          Learn AK
         </a>
       </header>
     </div>
