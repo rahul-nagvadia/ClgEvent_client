@@ -8,6 +8,8 @@ import Register from './pages/Register'
 import Login from './pages/Login'
 import Home from './pages/Home'
 import AdminHome from './pages/AdminHome'
+import OrganizeNewEvent from "./pages/OrganizeNewEvent";
+import Requests from "./pages/Requests";
 
 
 const router = createBrowserRouter([
@@ -26,7 +28,15 @@ const router = createBrowserRouter([
   {
     path: '/adminhome',
     element: <AdminHome/>
-  }
+  },
+  {
+    path: '/organize',
+    element: <OrganizeNewEvent/>
+  },
+  {
+    path: '/requests',
+    element: <Requests/>
+  },
 ]);
 
 function App() {
