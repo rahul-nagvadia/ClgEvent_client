@@ -1,28 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import Layout from './Layout';
-import {jwtDecode} from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 
 const CollegeList = () => {
   const [college, setCollege] = useState({});
-  const [userid, setUserid] = useState("");
+  const [userid, setUserid] = useState(0);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("authToken");
 
     if (token) {
       try {
         const decodedToken = jwtDecode(token);
-        const { id } = decodedToken.user;
-        
+        const id = decodedToken.user.id;
+        console.log(id)
         setUserid(id);
-        console.log(userid);
+        console.log(userid)
       } catch (error) {
         console.error("Error decoding token:", error);
       }
     }
-  }, []);
+  });
 
-  
+  // Use another useEffect to log userid when it changes
+  useEffect(() => {
+    console.log("User id:", userid);
+  }, [userid]);
+
 
   useEffect(() => {
 
@@ -41,8 +45,8 @@ const CollegeList = () => {
         console.log('Data received from the server:', data);
 
         if (data.clg) {
-          console.log(data);
-          console.log(data.clg);
+          // console.log(data);
+          // console.log(data.clg);
           setCollege(data.clg);
         } else {
           console.error('No college data found in the response:', data);
@@ -58,7 +62,7 @@ const CollegeList = () => {
 
   return (
     <>
-      <Layout>
+      <Layout orgClgId={college._id}>
         <h1>Colleges</h1>
 
         <div>

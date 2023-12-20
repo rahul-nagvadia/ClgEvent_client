@@ -1,13 +1,40 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
-const OrganizerNavbar = () => {
+const OrganizerNavbar = ({orgClgId}) => {
   const navigate = useNavigate();
+  const [isOrgClg, setOrgClg] = useState(false)
+  // let authToken = localStorage.getItem('authToken');
+  const [isLogin, setIsLogin] = useState(false)
+  
+  useEffect(() => {
+    const authToken = localStorage.getItem("authToken");
+
+    if (authToken) {
+      setIsLogin(true)
+      try {
+        const decodedToken = jwtDecode(authToken);
+        const id = decodedToken.user.id;
+        console.log(id)
+        if(id == orgClgId){
+          setOrgClg(true);
+        }
+        
+      } catch (error) {
+        console.error("Error decoding token:", error);
+      }
+    }
+  });
 
   const handleLogout = () => {
+    localStorage.removeItem('authToken');
     navigate('/login');
   };
-
+  
+  const handleLogin = () => {
+    navigate('/login');
+  };
   const handleAddEvent = () => {
     navigate('/Home/add-event');
   };
@@ -19,22 +46,33 @@ const OrganizerNavbar = () => {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <div className="container-fluid">
-        <a className="navbar-brand" href="/">Your Logo</a>
+        <Link to='/Home' className='navbar-brand'>Your Logo</Link>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ml-auto"> 
+          {isLogin && isOrgClg && (
             <li className="nav-item">
               <button className="btn btn-link nav-link" onClick={handleAddEvent}>Add Event</button>
             </li>
+            )}
             <li className="nav-item">
               <button className="btn btn-link nav-link" onClick={handleAllEvents}>All Events</button>
             </li>
+            {!isLogin ? (
             <li className="nav-item">
+              <button className="btn btn-link nav-link" onClick={handleLogin}>Login</button>
+            </li>
+            ) : 
+            (
+              <li className="nav-item">
               <button className="btn btn-link nav-link" onClick={handleLogout}>Logout</button>
             </li>
+            )
+          }
           </ul>
+          {/* <span className="ml-auto">DDIT</span> */}
         </div>
       </div>
     </nav>

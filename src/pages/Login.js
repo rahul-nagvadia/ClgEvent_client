@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import {useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -53,7 +53,7 @@ export default function Login() {
         }),
       });
 
-      
+      const data = await res.json()
 
       if (res.status === 401) {
         window.alert("Incorrect username or password");
@@ -63,9 +63,12 @@ export default function Login() {
         window.alert("You Are still under Verification! please keep Patience  :)");
       } else if (res.status === 200) {
         window.alert("Login Successful!");
-        navigate("/Home");
+        // console.log(data)
+        localStorage.setItem("authToken", data.authToken);
+        navigate("/");
       } else if (res.status === 201) {
         window.alert("Admin login Successful!");
+        localStorage.setItem("adminToken", data.adminToken);
         navigate("/adminhome");
       }
     }
@@ -138,7 +141,7 @@ export default function Login() {
                 Login
               </button>
             </div>
-            <p className="text-center text-muted mt-5 mb-0">Not Registered Yet?? <a href="/" className="fw-bold text-body"><u>Register here</u></a></p>
+            <p className="text-center text-muted mt-5 mb-0">Not Registered Yet?? <Link to="/register" className="fw-bold text-body"><u>Register here</u></Link></p>
           </form>
         </div>
       </div>

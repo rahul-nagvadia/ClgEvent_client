@@ -13,15 +13,20 @@ import Requests from "./pages/Requests";
 import AddEvent from "./pages/AddEvent";
 import AllEvent from "./pages/AllEvent";
 import EventDetails from "./pages/EventDetails";
+import AddParticipate from './pages/AddParticipate';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Register />
+    element: <Home />
   },
   {
     path: '/login',
     element: <Login />
+  },
+  {
+    path: '/register',
+    element : <Register/>
   },
   {
     path: '/Home',
@@ -38,10 +43,21 @@ const router = createBrowserRouter([
           {index:true, element: <AllEvent/>},
           {
             path: ':eventId',
-            element: <EventDetails/>
+            
+            children: [
+              {
+                index:true, element: <EventDetails/>
+              },
+              {
+                path : 'addParticipant',
+                element : <AddParticipate />
+              }
+            ]
           }
+          
         ]
       }
+      
     ],
   },
   {

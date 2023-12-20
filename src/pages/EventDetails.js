@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import Layout from './Layout';
+
 import '../styles/eventdetails.css';
 
 const EventDetails = () => {
@@ -59,7 +60,10 @@ const EventDetails = () => {
                     <h3>Event Description</h3><p>{eventDetails.event_desc}</p>
                     <h3>Event Date</h3><p>{formatDate(eventDetails.event_date)}</p>
                     <h3>Final Date of Registration</h3><p>{formatDate(eventDetails.reg_date)}</p>
-                    <button className="participate-button">Participate</button>
+                    <Link to={{
+                        pathname: `/Home/all-events/${eventId}/addParticipant`,
+                        state: { players: eventDetails.players },
+                    }} className="participate-button">Participate</Link>
                 </div>
             </div>
         </Layout>

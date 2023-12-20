@@ -2,17 +2,15 @@ import React from 'react';
 import OrganizerNavbar from './ClgNavbar';
 import { useLocation } from 'react-router-dom';
 
-function Layout({ children }) {
+function Layout({ children, orgClgId }) {
     const location = useLocation();
     const isHomePage = location.pathname === '/';
 
+    
     return (
         <div>
-
-
-            <OrganizerNavbar />
+            <OrganizerNavbar orgClgId={orgClgId} />
             {children}
-
         </div>
     );
 }
