@@ -31,7 +31,6 @@ const AddParticipate = () => {
   useEffect(() => {
     // Update participants array when the number of players changes
     setParticipants(Array.from({ length: players }, () => ({ name: '', email: '' })));
-    // console.log("hj")
   }, [players]);
 
   const handleChange = (e, index) => {
@@ -46,16 +45,34 @@ const AddParticipate = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Add your logic to handle the submission of the participant data
-    console.log('Participants Data:', participants);
-    // Reset the form after submission
-    setParticipants(Array.from({ length: players }, () => ({ name: '', email: '' })));
+
+    try {
+      const response = await fetch('http://localhost:5000/clg/addParticipants', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          eventId,
+          participants,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to add participants');
+      }
+
+      // Reset the form after successful submission
+      setParticipants(Array.from({ length: players }, () => ({ name: '', email: '' })));
+    } catch (error) {
+      console.error('Error submitting participants:', error.message);
+    }
   };
 
-  return (
-    <Layout>
+return (
+  <Layout>
     <div className="container mt-4">
       <h2>Add Participants</h2>
       <form onSubmit={handleSubmit}>
@@ -96,8 +113,8 @@ const AddParticipate = () => {
         </button>
       </form>
     </div>
-    </Layout>
-  );
+  </Layout>
+);
 };
 
 export default AddParticipate;

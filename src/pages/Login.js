@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { FaUser, FaLock } from 'react-icons/fa';
 
 export default function Login() {
   let navigate = useNavigate();
@@ -58,8 +59,8 @@ export default function Login() {
       if (res.status === 401) {
         window.alert("Incorrect username or password");
         navigate("/login");
-      } 
-      else if (res.status === 402){
+      }
+      else if (res.status === 402) {
         window.alert("You Are still under Verification! please keep Patience  :)");
       } else if (res.status === 200) {
         window.alert("Login Successful!");
@@ -76,73 +77,72 @@ export default function Login() {
 
   return (
     <>
-      <div
-        className="d-flex justify-content-center align-items-center vh-100"
-        style={{
-          backgroundImage:
-            "url('https://mdbcdn.b-cdn.net/img/Photos/new-templates/search-box/img4.webp')",
-          backgroundPosition: "center",
-          backgroundSize: "cover",
-        }}
-      >
-        <div
-          className="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1"
-          style={{ backgroundColor: "white" }}
-        >
-          <p className="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Login</p>
+      <div className='container-fluid ' style={{ minHeight: "100vh" }}>
+        <div className="container-fluid registration-container">
+          <div className="row justify-content-center">
+            <div className="col-md-6 mt-25">
+              <div className="registration-form">
+                <h2 className="text-center mb-4">Log In</h2>
+                <div className="row justify-content-center">
 
-          <form method="post" className="mx-1 mx-md-4">
-            {registrationSuccessMessage && (
-              <div className="alert alert-success" role="alert">
-                {registrationSuccessMessage}
-              </div>
-            )}
+                  <form method="post" className="mx-1 mx-md-4" onSubmit={PostData}>
+                    {registrationSuccessMessage && (
+                      <div className="alert alert-success" role="alert">
+                        {registrationSuccessMessage}
+                      </div>
+                    )}
 
-            <div className="d-flex flex-row align-items-center mb-4">
-              <i className="fas fa-key fa-lg me-3 fa-fw"></i>
-              <div className="form-outline flex-fill mb-0">
-                <input
-                  type="text"
-                  id="username"
-                  className="form-control"
-                  name="username"
-                  value={user.username}
-                  onChange={handleInputs}
-                />
-                <label className="form-label" htmlFor="username">
-                  Your Username
-                </label>
+                    <div className="d-flex flex-row align-items-center mb-4">
+                      <div className="d-flex justify-content-center form-outline flex-fill mb-0">
+
+                        {/* <FaUser /> */}
+                        <input
+                          type="text"
+                          id="username"
+                          className="form-control"
+                          name="username"
+                          placeholder="Username"
+                          value={user.username}
+                          onChange={handleInputs}
+                          style={{ width: "70%" }}
+                        />
+
+                      </div>
+                    </div>
+
+                    <div className="d-flex flex-row align-items-center mb-4">
+                      {/* <FaLock /> */}
+                      <div className="d-flex justify-content-center form-outline flex-fill mb-0">
+                        <input
+                        
+                          type="password"
+                          id="password"
+                          className="form-control"
+                          name="password"
+                          placeholder="Password"
+                          value={user.password}
+                          onChange={handleInputs}
+                          style={{ width: "70%" }}
+                        />
+
+                      </div>
+                    </div>
+
+                    <div className="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                      <button
+                        type="submit"
+                        className="btn btn-clr btn-primary btn-lg"
+
+                      >
+                        LogIn
+                      </button>
+                    </div>
+                    <p className="text-center text-muted mt-5 mb-0">Not Registered Yet?? <Link to="/register" className="fw-bold text-body"><u>Register here</u></Link></p>
+                  </form>
+                </div>
               </div>
             </div>
-
-            <div className="d-flex flex-row align-items-center mb-4">
-              <i className="fas fa-lock fa-lg me-3 fa-fw"></i>
-              <div className="form-outline flex-fill mb-0">
-                <input
-                  type="password"
-                  id="password"
-                  className="form-control"
-                  name="password"
-                  value={user.password}
-                  onChange={handleInputs}
-                />
-                <label className="form-label" htmlFor="password">
-                  Password
-                </label>
-              </div>
-            </div>
-
-            <div className="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-              <button
-                type="button"
-                className="btn btn-clr btn-primary btn-lg"
-                onClick={PostData}
-              >
-                Login
-              </button>
-            </div>
-            <p className="text-center text-muted mt-5 mb-0">Not Registered Yet?? <Link to="/register" className="fw-bold text-body"><u>Register here</u></Link></p>
-          </form>
+          </div>
         </div>
       </div>
     </>

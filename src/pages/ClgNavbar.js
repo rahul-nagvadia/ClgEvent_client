@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 const OrganizerNavbar = ({orgClgId}) => {
   const navigate = useNavigate();
   const [isOrgClg, setOrgClg] = useState(false)
-  // let authToken = localStorage.getItem('authToken');
+  
   const [isLogin, setIsLogin] = useState(false)
   
   useEffect(() => {
