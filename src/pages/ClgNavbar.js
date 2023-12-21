@@ -16,7 +16,7 @@ const OrganizerNavbar = ({orgClgId}) => {
       try {
         const decodedToken = jwtDecode(authToken);
         const id = decodedToken.user.id;
-        console.log(id)
+        // console.log(id)
         if(id == orgClgId){
           setOrgClg(true);
         }
