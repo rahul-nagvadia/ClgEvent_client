@@ -4,8 +4,6 @@ import '../styles/addevent.css';
 
 const AddEventForm = () => {
 
-    const formRef = useRef(null);
-
     const [eventData, setEventData] = useState({
         event_name: '',
         players: 0,

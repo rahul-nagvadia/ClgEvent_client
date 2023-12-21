@@ -52,7 +52,7 @@ const EventDetails = () => {
     return (
         <Layout>
             <div className="event-details-container">
-                {/* <h3>{eventDetails.event_name}</h3> */}
+                
                 <div className="event-details">
                     <img src={eventDetails.img_url} alt={eventDetails.event_name} />
                     <h3>No. of Players</h3><p>{eventDetails.players}</p>

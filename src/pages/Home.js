@@ -44,9 +44,10 @@ const CollegeList = () => {
         console.log('Data received from the server:', data);
 
         if (data.clg) {
-          // console.log(data);
-          // console.log(data.clg);
+
           setCollege(data.clg);
+          localStorage.setItem('orgClgId', data.clg._id);
+
         } else {
           console.error('No college data found in the response:', data);
         }
