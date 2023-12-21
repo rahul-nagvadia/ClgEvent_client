@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { FaUser, FaLock } from 'react-icons/fa';
 
 export default function Login() {
   let navigate = useNavigate();
