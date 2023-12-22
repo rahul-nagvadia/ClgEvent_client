@@ -4,8 +4,7 @@ import { jwtDecode } from "jwt-decode";
 
 const CollegeList = () => {
   const [college, setCollege] = useState({});
-  const [userid, setUserid] = useState();
-  const [userClg, setUserClg] = useState({})
+  const [userid, setUserid] = useState(0);
 
   useEffect(() => {
     const token = localStorage.getItem("authToken");
@@ -14,12 +13,14 @@ const CollegeList = () => {
       try {
         const decodedToken = jwtDecode(token);
         const id = decodedToken.user.id;
+        console.log(id)
         setUserid(id);
+        console.log(userid)
       } catch (error) {
         console.error("Error decoding token:", error);
       }
     }
-  },[userid]);
+  });
 
   // Use another useEffect to log userid when it changes
   useEffect(() => {
@@ -59,61 +60,21 @@ const CollegeList = () => {
     fetchColleges();
   }, []);
 
-  useEffect(() => {
-
-    const fetchCollegeById = async () => {
-      try {
-        const response = await fetch(`http://localhost:5000/clg/getCollege/${userid}`, {
-          method: 'POST',
-        });
-
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-
-        const data = await response.json();
-
-        console.log('College received from the server:', data);
-
-        if (data) {
-          // console.log(data);
-          // console.log(data.clg);
-          setUserClg(data);
-        } else {
-          console.error('No college data found in the response:', data);
-        }
-      } catch (error) {
-        console.error('Error fetching colleges:', error.message);
-      }
-    };
-
-    fetchCollegeById();
-  }, [userid]);
-
 
   return (
     <>
       <Layout orgClgId={college._id}>
-        <h1>Organizer College</h1>
+        <h1>Colleges</h1>
 
         <div>
-          <h4>College Name: {college.clg_name}</h4><br />
-          <h4>City: {college.city}</h4><br />
-          <h4>Email: {college.email}</h4><br />
-          <h4>Mobile Number: {college.mobile_no}</h4><br />
-        </div>
-
-        <h1>User College</h1>
-
-        <div>
-          <h4>College Name: {userClg.clg_name}</h4><br />
-          <h4>City: {userClg.city}</h4><br />
-          <h4>Email: {userClg.email}</h4><br />
-          <h4>Mobile Number: {userClg.mobile_no}</h4><br />
+          <h3>College Name:</h3> {college.clg_name}<br />
+          <h3>City:</h3> {college.city}<br />
+          <h3>Email:</h3> {college.email}<br />
+          <h3>Mobile Number:</h3> {college.mobile_no}<br />
         </div>
       </Layout>
     </>
   );
 };
 
-export default CollegeList;
+export default CollegeList;
