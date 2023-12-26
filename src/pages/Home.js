@@ -22,11 +22,6 @@ const CollegeList = () => {
     }
   });
 
-  // Use another useEffect to log userid when it changes
-  useEffect(() => {
-    console.log("User id:", userid);
-  }, [userid]);
-
 
   useEffect(() => {
 

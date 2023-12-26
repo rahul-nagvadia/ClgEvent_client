@@ -21,10 +21,11 @@ const EventDetails = () => {
 
                 const data = await response.json();
                 setEventDetails(data);
-                console.log(data);
+                // console.log("Data",data);
             } catch (error) {
                 console.error('Error fetching event details:', error.message);
             }
+            
         };
 
         fetchEventDetails();
@@ -55,15 +56,18 @@ const EventDetails = () => {
                 
                 <div className="event-details">
                     <img src={eventDetails.img_url} alt={eventDetails.event_name} />
+                    <h2>{eventDetails.event_name}</h2>
                     <h3>No. of Players</h3><p>{eventDetails.players}</p>
                     <h3>Venue</h3><p>{eventDetails.venue}</p>
                     <h3>Event Description</h3><p>{eventDetails.event_desc}</p>
                     <h3>Event Date</h3><p>{formatDate(eventDetails.event_date)}</p>
                     <h3>Final Date of Registration</h3><p>{formatDate(eventDetails.reg_date)}</p>
-                    <Link to={{
-                        pathname: `/Home/all-events/${eventId}/addParticipant`,
-                        state: { players: eventDetails.players },
-                    }} className="participate-button">Participate</Link>
+                    {console.log(eventDetails)}
+                    
+                    
+                    <Link to= 'addParticipant' state= {{ players: eventDetails.players }} className="participate-button">Participate</Link>
+                    <Link to= 'participatedclg' state= {{ event: eventDetails }} className="participate-button">Participated College</Link>
+                    
                 </div>
             </div>
         </Layout>

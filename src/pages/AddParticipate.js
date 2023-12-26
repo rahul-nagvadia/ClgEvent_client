@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import Layout from './Layout';
 import { jwtDecode } from "jwt-decode";
 
@@ -8,6 +8,7 @@ const AddParticipate = () => {
   const [players, setPlayers] = useState(0);
   const [participants, setParticipants] = useState(Array.from({ length: players }, () => ({ name: '', mobileno: '' })));
   const [userid, setUserid] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem("authToken");
@@ -45,7 +46,7 @@ const AddParticipate = () => {
   }, [eventId]);
 
   useEffect(() => {
-    // Update participants array when the number of players changes
+    
     setParticipants(Array.from({ length: players }, () => ({ name: '', mobileno: '' })));
   }, [players]);
 
@@ -89,9 +90,11 @@ const AddParticipate = () => {
       });
       if(response.status === 400){
         window.alert("Your College have already participated in this event");
+        navigate('participatedclg')
       }
-      if(response.status === 300){
+      else if(response.status === 200){
         window.alert("Succesfully Participated!!");
+        navigate('participatedclg')
       }
 
       if (!response.ok) {
