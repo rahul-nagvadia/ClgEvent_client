@@ -1,11 +1,12 @@
 import { jwtDecode } from 'jwt-decode';
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import '../styles/Login.css';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import '../styles/ClgNavbar.css';
 
 
 const OrganizerNavbar = ({orgClgId}) => {
   const navigate = useNavigate();
+  const eventId = useParams();
   const [isOrgClg, setOrgClg] = useState(false)
   
   const [isLogin, setIsLogin] = useState(false)
@@ -44,6 +45,7 @@ const OrganizerNavbar = ({orgClgId}) => {
   const handleAllEvents = () => {
     navigate('/Home/all-events');
   };
+
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg text-light">
