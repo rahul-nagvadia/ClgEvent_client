@@ -80,17 +80,7 @@ const OrganizerNavbar = ({ orgClgId }) => {
               (
                 <>
                   
-                  {/* <li>
-                    <div className="dropdown mx-3">
-                      <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
-                      {uname}
-                      </button>
-                      <div className="dropdown-menu" aria-labelledby="dropdownMenuButton" style={{display : 'none',  position : "fixed"}}>
-                        <Link className="dropdown-item"  style={{display : 'block'}} onClick={handleLogout}>Logout</Link>
-                        <Link className="dropdown-item" style={{display : 'block'}} onClick={handleUpdateProfile}>Update Profile</Link>
-                      </div>
-                    </div>
-                  </li> */}
+              
                   <li className="nav-item">
                     <button className="btn btn-link nav-link" onClick={handleLogout}>Logout</button>
                   </li>

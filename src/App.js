@@ -16,6 +16,7 @@ import EventDetails from "./pages/EventDetails";
 import AddParticipate from './pages/AddParticipate';
 import ParticipatedClg from "./pages/ParticipatedClg";
 import ShowPlayers from "./pages/ShowPlayers";
+import UserProfile from "./pages/UserProfile";
 
 const router = createBrowserRouter([
   {
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
       {
         path: "add-event", 
         element: <AddEvent />,
+      },
+      {
+        path: 'userProfile',
+        element: <UserProfile />
       },
       {
         path: 'all-events',

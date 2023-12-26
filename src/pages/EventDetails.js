@@ -55,8 +55,8 @@ const EventDetails = () => {
             <div className="event-details-container">
                 
                 <div className="event-details">
-                    <img src={eventDetails.img_url} alt={eventDetails.event_name} />
                     <h2>{eventDetails.event_name}</h2>
+                    <img src={eventDetails.img_url} alt={eventDetails.event_name} />
                     <h3>No. of Players</h3><p>{eventDetails.players}</p>
                     <h3>Venue</h3><p>{eventDetails.venue}</p>
                     <h3>Event Description</h3><p>{eventDetails.event_desc}</p>
