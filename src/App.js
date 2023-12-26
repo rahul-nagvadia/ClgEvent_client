@@ -40,6 +40,10 @@ const router = createBrowserRouter([
         element: <AddEvent />,
       },
       {
+        path: 'userProfile',
+        element: <UserProfile />
+      },
+      {
         path: 'all-events',
         children: [
           {index:true, element: <AllEvent/>},
