@@ -14,6 +14,7 @@ import AddEvent from "./pages/AddEvent";
 import AllEvent from "./pages/AllEvent";
 import EventDetails from "./pages/EventDetails";
 import AddParticipate from './pages/AddParticipate';
+import UserProfile from "./pages/UserProfile";
 
 const router = createBrowserRouter([
   {
@@ -56,8 +57,11 @@ const router = createBrowserRouter([
           }
           
         ]
+      },
+      {
+        path:'userProfile',
+        element: <UserProfile />
       }
-      
     ],
   },
   {
