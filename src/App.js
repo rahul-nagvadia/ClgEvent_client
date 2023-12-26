@@ -17,6 +17,7 @@ import AddParticipate from './pages/AddParticipate';
 import ParticipatedClg from "./pages/ParticipatedClg";
 import ShowPlayers from "./pages/ShowPlayers";
 import UserProfile from "./pages/UserProfile";
+
 const router = createBrowserRouter([
   {
     path: '/',
