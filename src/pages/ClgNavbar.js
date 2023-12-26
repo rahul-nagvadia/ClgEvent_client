@@ -1,23 +1,25 @@
 import { jwtDecode } from 'jwt-decode';
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-// import '../styles/Login.css';
+
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import '../styles/ClgNavbar.css';
 
 
-function OrganizerNavbar({ orgClgId }) {
+
+const OrganizerNavbar = ({ orgClgId }) => {
   const navigate = useNavigate();
   const eventId = useParams();
-  const [isOrgClg, setOrgClg] = useState(false);
+  const [isOrgClg, setOrgClg] = useState(false)
 
-  const [isLogin, setIsLogin] = useState(false);
-  const [id, setId] = useState();
-  const [uname, setUname] = useState();
+  const [isLogin, setIsLogin] = useState(false)
+  const [id, setId] = useState()
+  const [uname, setUname] = useState()
 
   useEffect(() => {
     const authToken = localStorage.getItem("authToken");
 
     if (authToken) {
-      setIsLogin(true);
+      setIsLogin(true)
       try {
         const decodedToken = jwtDecode(authToken);
         setId(decodedToken.user.id);
@@ -48,6 +50,10 @@ function OrganizerNavbar({ orgClgId }) {
   const handleAllEvents = () => {
     navigate('/Home/all-events');
   };
+  const handleUpdateProfile = () => {
+    navigate('/Home/userProfile');
+  };
+
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark text-light">
@@ -73,18 +79,18 @@ function OrganizerNavbar({ orgClgId }) {
             ) :
               (
                 <>
-
+                  
                   {/* <li>
-                          <div className="dropdown mx-3">
-                            <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
-                            {uname}
-                            </button>
-                            <div className="dropdown-menu" aria-labelledby="dropdownMenuButton" style={{display : 'none',  position : "fixed"}}>
-                              <Link className="dropdown-item"  style={{display : 'block'}} onClick={handleLogout}>Logout</Link>
-                              <Link className="dropdown-item" style={{display : 'block'}} onClick={handleUpdateProfile}>Update Profile</Link>
-                            </div>
-                          </div>
-                        </li> */}
+                    <div className="dropdown mx-3">
+                      <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+                      {uname}
+                      </button>
+                      <div className="dropdown-menu" aria-labelledby="dropdownMenuButton" style={{display : 'none',  position : "fixed"}}>
+                        <Link className="dropdown-item"  style={{display : 'block'}} onClick={handleLogout}>Logout</Link>
+                        <Link className="dropdown-item" style={{display : 'block'}} onClick={handleUpdateProfile}>Update Profile</Link>
+                      </div>
+                    </div>
+                  </li> */}
                   <li className="nav-item">
                     <button className="btn btn-link nav-link" onClick={handleLogout}>Logout</button>
                   </li>
@@ -92,13 +98,14 @@ function OrganizerNavbar({ orgClgId }) {
                     <button className="btn btn-link nav-link" onClick={handleUpdateProfile}>Update Profile</button>
                   </li>
                 </>
-              )}
+              )
+            }
           </ul>
-
+          
         </div>
       </div>
     </nav>
   );
-}
+};
 
 export default OrganizerNavbar;

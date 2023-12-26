@@ -14,6 +14,8 @@ import AddEvent from "./pages/AddEvent";
 import AllEvent from "./pages/AllEvent";
 import EventDetails from "./pages/EventDetails";
 import AddParticipate from './pages/AddParticipate';
+import ParticipatedClg from "./pages/ParticipatedClg";
+import ShowPlayers from "./pages/ShowPlayers";
 
 const router = createBrowserRouter([
   {

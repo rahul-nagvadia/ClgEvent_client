@@ -62,16 +62,12 @@ const EventDetails = () => {
                     <h3>Event Description</h3><p>{eventDetails.event_desc}</p>
                     <h3>Event Date</h3><p>{formatDate(eventDetails.event_date)}</p>
                     <h3>Final Date of Registration</h3><p>{formatDate(eventDetails.reg_date)}</p>
-                    ${console.log(eventDetails)}
+                    {console.log(eventDetails)}
                     
-                    <Link to={{
-                        pathname: 'addParticipant',
-                        state: { players: eventDetails.players },
-                    }} className="participate-button">Participate</Link>
-                    <Link to={{
-                        pathname: 'participatedclg',
-                        state: { event: eventDetails },
-                    }} className="participate-button">Participated College</Link>
+                    
+                    <Link to= 'addParticipant' state= {{ players: eventDetails.players }} className="participate-button">Participate</Link>
+                    <Link to= 'participatedclg' state= {{ event: eventDetails }} className="participate-button">Participated College</Link>
+                    
                 </div>
             </div>
         </Layout>

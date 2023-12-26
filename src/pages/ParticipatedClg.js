@@ -4,14 +4,19 @@ import Layout from './Layout';
 import '../styles/participatedclg.css';
 
 function ParticipatedClg() {
+    const [eventName, setEventName] = useState('');
     const [events, setEvents] = useState([]);
     const obj = useParams();
     const eventId = obj.eventId;
     const navigate = useNavigate();
-    const location = useLocation();
-    const eventDetails = location.state && location.state.event;
+    const {state} = useLocation();
+    
+    useEffect(() => {
 
-    console.log(eventDetails);
+        setEventName(state.event.event_name);
+    
+
+    }, [state]);
 
     useEffect(() => {
         const fetchEvents = async () => {
@@ -43,8 +48,8 @@ function ParticipatedClg() {
 
     return (
         <Layout>
-            <div className="centered-container"> {/* Apply centering styles */}
-                <h2>Participating Colleges</h2>
+            <div className="centered-container"> 
+                <h2>Participating Colleges in {eventName}</h2>
                 <table>
                     <thead>
                         <tr>
