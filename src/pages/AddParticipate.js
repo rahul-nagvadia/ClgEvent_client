@@ -90,11 +90,11 @@ const AddParticipate = () => {
       });
       if(response.status === 400){
         window.alert("Your College have already participated in this event");
-        navigate('participatedclg')
+        navigate('/Home/all-events')
       }
       else if(response.status === 200){
         window.alert("Succesfully Participated!!");
-        navigate('participatedclg')
+        navigate('/Home/all-events')
       }
 
       if (!response.ok) {
