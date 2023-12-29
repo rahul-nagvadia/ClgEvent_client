@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Layout from './Layout';
 
 export default function UserProfile() {
@@ -12,11 +12,16 @@ export default function UserProfile() {
         email : String,
         mobile_no : String,
     }*/
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setUser({ ...user, [name]: value });
 
     };
+
+    // useEffect(async() => {
+    //     await fetch(`http://localhost:5000/clg`)
+    // }, [])
 
     const handleSubmit = async (e) => {
         e.preventDefault();
