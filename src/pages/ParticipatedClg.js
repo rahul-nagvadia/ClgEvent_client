@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams, useLocation } from 'react-router-dom';
+import { useNavigate, useParams, useLocation, Link } from 'react-router-dom';
 import Layout from './Layout';
 import '../styles/participatedclg.css';
 
@@ -9,12 +9,12 @@ function ParticipatedClg() {
     const obj = useParams();
     const eventId = obj.eventId;
     const navigate = useNavigate();
-    const {state} = useLocation();
-    
+    const { state } = useLocation();
+
     useEffect(() => {
 
         setEventName(state.event.event_name);
-    
+
 
     }, [state]);
 
@@ -34,6 +34,7 @@ function ParticipatedClg() {
                 const data = await response.json();
 
                 setEvents(data.participatingColleges);
+                console.log("Events:", events);
             } catch (error) {
                 console.error('Error fetching events:', error.message);
             }
@@ -42,13 +43,10 @@ function ParticipatedClg() {
         fetchEvents();
     }, [eventId]);
 
-    const handleClick = () => {
-        navigate('showplayers');
-    };
 
     return (
         <Layout>
-            <div className="centered-container"> 
+            <div className="centered-container">
                 <h2>Participating Colleges in {eventName}</h2>
                 <table>
                     <thead>
@@ -66,9 +64,10 @@ function ParticipatedClg() {
                                 <td>{event.clg_name}</td>
                                 <td>{event.city}</td>
                                 <td>
-                                    <button onClick={handleClick}>
+                                    <Link to='showplayers' state={{ clgId: event._id, clgName: event.clg_name, eventName: eventName }}>
                                         View Players
-                                    </button>
+                                    </Link>
+
                                 </td>
                             </tr>
                         ))}
