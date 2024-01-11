@@ -1,17 +1,50 @@
 import React, { useEffect, useState } from 'react'
 import Layout from './Layout';
+import { jwtDecode } from 'jwt-decode';
 
 export default function UserProfile() {
 
-    const [user, setUser] = useState({ username: "", password: "",  email: "", mobile_no: "", city: "" });
-    /*{
-        username : String,
-        password : String,
-        clg_name : String,
-        city : String,
-        email : String,
-        mobile_no : String,
-    }*/
+    const [user, setUser] = useState({ username: "", password: "", email: "", mobile_no: "", city: "" });
+    
+
+    const [userid, setUserId] = useState('')
+
+
+    useEffect(() => {
+        const authToken = localStorage.getItem("authToken");
+
+        if (authToken) {
+
+            try {
+                const decodedToken = jwtDecode(authToken);
+                console.log(decodedToken.user.id)
+                setUserId(decodedToken.user.id);
+                console.log(userid);
+
+            } catch (error) {
+                console.error("Error decoding token:", error);
+            }
+        }
+    }, [userid]);
+
+    useEffect(() => {
+        const fetchUserDetails = async () => {
+          try {
+            const res = await fetch(`http://localhost:5000/clg/getClgDetails/${userid}`, {
+                method : 'POST' 
+            });
+            const data = await res.json();
+            const user = { username: data.clg.username, password: "", email: data.clg.email, mobile_no: data.clg.mobile_no, city: data.clg.city }
+            setUser(user);
+          } catch (error) {
+            console.error('Error While Fetching:', error.message);
+          }
+        };
+    
+        if (userid) {
+          fetchUserDetails();
+        }
+      }, [userid]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -19,9 +52,6 @@ export default function UserProfile() {
 
     };
 
-    // useEffect(async() => {
-    //     await fetch(`http://localhost:5000/clg`)
-    // }, [])
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -63,7 +93,7 @@ export default function UserProfile() {
                             <div className="card-body">
                                 <h4 className="card-title text-center mb-1">Update User Details</h4>
                                 {/* <hr className="w-50 mx-auto" /> */}
-                                <hr className='mb-3' style={{ width: "50%", height: "3px", margin: "auto", color : "gray" }} />
+                                <hr className='mb-3' style={{ width: "50%", height: "3px", margin: "auto", color: "gray" }} />
                                 <form onSubmit={handleSubmit}>
                                     <div className="mb-3">
                                         <label htmlFor="username" className="form-label">
@@ -92,7 +122,7 @@ export default function UserProfile() {
                                             onChange={handleChange}
                                         />
                                     </div>
-                                    
+
                                     <div className="mb-3">
                                         <label htmlFor="email" className="form-label">
                                             Email
