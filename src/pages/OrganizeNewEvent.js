@@ -27,20 +27,16 @@ const OrganizeNewEvent = () => {
           }
         );
         const data = await response.json();
-
-        if (response.ok) {
+         
           if (data.organizingclg) {
             setOrganizingCollege(data.organizingclg);
-          } else {
-            setOrganizingCollege(null);
+          } 
+          else if(response.status === 404){
+            setOrganizingCollege({});
+          }else {
+            setOrganizingCollege({});
           }
-        } else {
-          console.error(
-            "Error checking organizing college:",
-            data.message || "Unknown error"
-          );
-          setOrganizingCollege(null);
-        }
+         
 
         setCheckClgDone(true);
         setLoading(false);
