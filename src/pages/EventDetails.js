@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import Layout from './Layout';
-
 import '../styles/eventdetails.css';
 
 const EventDetails = () => {
@@ -21,17 +20,15 @@ const EventDetails = () => {
 
                 const data = await response.json();
                 setEventDetails(data);
-                // console.log("Data",data);
             } catch (error) {
                 console.error('Error fetching event details:', error.message);
             }
-            
         };
 
         fetchEventDetails();
     }, [eventId]);
 
-    if (!eventDetails) {
+    if (!eventDetails.event_name) {
         return <p>Loading event details...</p>;
     }
 
@@ -48,26 +45,39 @@ const EventDetails = () => {
         return `${formattedDay}-${formattedMonth}-${year}`;
     }
 
-
-
     return (
         <Layout>
             <div className="event-details-container">
-                
                 <div className="event-details">
                     <h2>{eventDetails.event_name}</h2>
-                    <img src={eventDetails.img_url} alt={eventDetails.event_name} />
-                    <h3>No. of Players</h3><p>{eventDetails.players}</p>
-                    <h3>Venue</h3><p>{eventDetails.venue}</p>
-                    <h3>Event Description</h3><p>{eventDetails.event_desc}</p>
-                    <h3>Event Date</h3><p>{formatDate(eventDetails.event_date)}</p>
-                    <h3>Final Date of Registration</h3><p>{formatDate(eventDetails.reg_date)}</p>
-                    {console.log(eventDetails)}
-                    
-                    
-                    <Link to= 'addParticipant' state= {{ players: eventDetails.players }} className="participate-button">Participate</Link>
-                    <Link to= 'participatedclg' state= {{ event: eventDetails }} className="participate-button">Participated College</Link>
-                    
+                    <img
+                        src={eventDetails.img_url}
+                        alt={eventDetails.event_name}
+                        className="event-image"
+                    />
+                    <h3>No. of Players</h3>
+                    <p>{eventDetails.players}</p>
+                    <h3>Venue</h3>
+                    <p>{eventDetails.venue}</p>
+                    <h3>Event Description</h3>
+                    <p>{eventDetails.event_desc}</p>
+                    <h3>Event Date</h3>
+                    <p>{formatDate(eventDetails.event_date)}</p>
+                    <h3>Final Date of Registration</h3>
+                    <p>{formatDate(eventDetails.reg_date)}</p>
+
+                    <div className="action-buttons">
+                        <Link to="addParticipant" state={{ players: eventDetails.players }} className="participate-button">
+                            Participate
+                        </Link>
+                        <Link
+                            to="participatedclg"
+                            state={{ event: eventDetails }}
+                            className="participated-college-button"
+                        >
+                            Participated College
+                        </Link>
+                    </div>
                 </div>
             </div>
         </Layout>

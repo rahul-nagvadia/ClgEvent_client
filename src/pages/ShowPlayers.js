@@ -8,9 +8,14 @@ function ShowPlayers() {
     const { state } = useLocation();
     const [players, setPlayers] = useState([]);
     const [clgId, setClgId] = useState(0);
+    const [clgName, setClgName] = useState(0);
+    const [eventName, setEventName] = useState('');
 
     useEffect(() => {
+        console.log(state);
         setClgId(state.clgId);
+        setClgName(state.clgName);
+        setEventName(state.eventName);
     }, [state]);
 
     useEffect(() => {
@@ -44,8 +49,8 @@ function ShowPlayers() {
     return (
         <Layout>
             <div className="centered-container">
-                <h2>Players</h2>
-                {/* <h2>Players of {clgName} in {eventName}</h2> */}
+                
+                <h2>Players of {clgName} in {eventName}</h2>
                 {players.length > 0 ? (
                     <table className="players-table">
                         <thead>
