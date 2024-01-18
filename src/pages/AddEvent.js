@@ -1,7 +1,7 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import Layout from './Layout';
 import '../styles/addevent.css';
-
+import { jwtDecode } from "jwt-decode";
 const AddEventForm = () => {
 
     const [eventData, setEventData] = useState({
@@ -12,7 +12,19 @@ const AddEventForm = () => {
         event_date: '',
         reg_date: '',
         img_url: '',
+        clg: '',
     });
+
+    useEffect(() => {
+        const authToken = localStorage.getItem("authToken");
+          try {
+            const decodedToken = jwtDecode(authToken);
+            eventData.clg = decodedToken.user.id;
+          } catch (error) {
+            console.error("Error decoding token:", error);
+          }
+        
+      });
 
     const handleChange = (e) => {
         const name = e.target.name;
