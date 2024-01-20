@@ -1,7 +1,7 @@
 import { jwtDecode } from "jwt-decode";
 import React, { useEffect, useState } from "react";
 
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, NavLink, useNavigate, useParams } from "react-router-dom";
 import "../styles/ClgNavbar.css";
 
 const OrganizerNavbar = ({ orgClgId, setEnable }) => {
@@ -38,33 +38,13 @@ const OrganizerNavbar = ({ orgClgId, setEnable }) => {
     navigate("/login");
   };
 
-  const handleLogin = () => {
-    navigate("/login");
-  };
-  const handleAddEvent = () => {
-    navigate("/Home/add-event");
-  };
-
-  const handleAllEvents = () => {
-    navigate("/Home/all-events");
-  };
-  const handleUpdateProfile = () => {
-    navigate("/Home/userProfile");
-  };
-  const handleSchedule = () => {
-    navigate("/Home/schedule");
-  };
-  const handleMatches = () => {
-    navigate("/Home/matches");
-  }
-
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark text-light">
       <div className="container mx-1">
         <Link to="/Home" className="navbar-brand">
           Your Logo
         </Link>
-        <button
+        <NavLink
           className="navbar-toggler"
           type="button"
           data-bs-toggle="collapse"
@@ -74,52 +54,52 @@ const OrganizerNavbar = ({ orgClgId, setEnable }) => {
           aria-label="Toggle navigation"
         >
           <span className="navbar-toggler-icon"></span>
-        </button>
+        </NavLink>
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ml-auto">
             {isLogin && isOrgClg && (
               <li className="nav-item">
-                <button
-                  className="btn btn-link nav-link"
-                  onClick={handleAddEvent}
+                <NavLink
+                  className="btn btn-link nav-link" activeClassName='active'
+                  to='/Home/add-event'
                 >
                   Add Event
-                </button>
+                </NavLink>
               </li>
             )}
             {isLogin && isOrgClg && (
               <li className="nav-item">
-                <button
-                  className="btn btn-link nav-link"
-                  onClick={handleSchedule}
+                <NavLink
+                  className="btn btn-link nav-link" activeClassName='active'
+                  to='/Home/schedule'
                 >
                   Schedule Match
-                </button>
+                </NavLink>
               </li>
             )}
-            
-              <li className="nav-item">
-                <button
-                  className="btn btn-link nav-link"
-                  onClick={handleMatches}
-                >
-                  Matches
-                </button>
-              </li>
-            
+
             <li className="nav-item">
-              <button
-                className="btn btn-link nav-link"
-                onClick={handleAllEvents}
+              <NavLink
+                className="btn btn-link nav-link" activeClassName='active'
+                to='/Home/matches'
+              >
+                Matches
+              </NavLink>
+            </li>
+
+            <li className="nav-item">
+              <NavLink
+                className="btn btn-link nav-link" activeClassName='active'
+                to='/Home/all-events'
               >
                 All Events
-              </button>
+              </NavLink>
             </li>
             {!isLogin ? (
               <li className="nav-item">
-                <button className="btn btn-link nav-link" onClick={handleLogin}>
+                <NavLink className="btn btn-link nav-link" activeClassName='active' to='/login'>
                   Login
-                </button>
+                </NavLink>
               </li>
             ) : (
               <>
@@ -132,12 +112,12 @@ const OrganizerNavbar = ({ orgClgId, setEnable }) => {
                   </button>
                 </li>
                 <li className="nav-item">
-                  <button
-                    className="btn btn-link nav-link"
-                    onClick={handleUpdateProfile}
+                  <NavLink
+                    className="btn btn-link nav-link" activeClassName='active'
+                    to='/Home/userProfile'
                   >
                     Update Profile
-                  </button>
+                  </NavLink>
                 </li>
               </>
             )}

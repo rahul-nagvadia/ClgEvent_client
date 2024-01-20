@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 export default function AdminNavbar() {
   const navigate = useNavigate();
 
@@ -9,25 +9,6 @@ export default function AdminNavbar() {
     navigate('/login');
   };
 
-  const handleLogin = () => {
-
-    navigate('/login');
-  };
-  const handleOrganize = () => {
-
-    navigate('/organize');
-  };
-
-  const handleRequests = () => {
-
-    navigate('/requests');
-  };
-
-  const handleHome = () => {
-
-    navigate('/adminhome');
-  };
-
   return (
 
 
@@ -35,10 +16,8 @@ export default function AdminNavbar() {
     <div>
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
         <div className="container mx-1">
-          <a className="navbar-brand" href="/">Your Logo</a>
-          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span className="navbar-toggler-icon"></span>
-          </button>
+          <Link className="navbar-brand" to="/adminhome">Your Logo</Link>
+          
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav ml-auto">
 
@@ -46,13 +25,13 @@ export default function AdminNavbar() {
                 <button className="btn btn-link nav-link" onClick={handleLogout}>Logout</button>
               </li>
               <li className="nav-item">
-                <button className="btn btn-link nav-link" onClick={handleHome}>Home</button>
+                <NavLink className="btn btn-link nav-link" to='/adminhome' activeClassName='active'>Home</NavLink>
               </li>
               <li className="nav-item">
-                <button className="btn btn-link nav-link" onClick={handleRequests}>Requests</button>
+                <NavLink className="btn btn-link nav-link" to='/requests' activeClassName='active'>Requests</NavLink>
               </li>
               <li className="nav-item">
-                <button className="btn btn-link nav-link" onClick={handleOrganize}>Organize</button>
+                <NavLink className="btn btn-link nav-link" to='/organize' activeClassName='active'>Organize</NavLink>
               </li>
 
             </ul>
