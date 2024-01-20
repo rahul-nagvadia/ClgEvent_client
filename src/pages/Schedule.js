@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Layout from "./Layout";
-import { useNavigate } from "react-router-dom";
 
 export default function Schedule() {
 
-  const navigate = useNavigate();
   const [colleges, setColleges] = useState([]);
   const [events, setEvents] = useState([]);
   const [formData, setFormData] = useState({
