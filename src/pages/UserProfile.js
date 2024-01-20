@@ -9,7 +9,7 @@ export default function UserProfile() {
     const [otp, setotp] = useState("");
     const [userid, setUserId] = useState('')
     const [userotp, setuserotp] = useState("");
-
+    const [passwordChanged, setPasswordChanged] = useState(false);
     useEffect(() => {
         const authToken = localStorage.getItem("authToken");
 
@@ -48,6 +48,9 @@ export default function UserProfile() {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
+        if(name == "password"){
+            setPasswordChanged(true);
+        }
         setUser({ ...user, [name]: value });
 
     };
@@ -68,7 +71,8 @@ export default function UserProfile() {
                     },
                     body: JSON.stringify({
                         user : user,
-                        isVerified : true
+                        isVerified : true,
+                        passChanged : passwordChanged
                     }),
                 });
                 const data = await response.json();
@@ -204,22 +208,24 @@ export default function UserProfile() {
                                         Update
                                     </button>
                                     {sentOTP && (
-                                        <div className="mb-3 input-group">
+                                        <div className="row">
                                             <input
                                                 type="text"
                                                 placeholder="Enter OTP"
-                                                className="form-control mt-5"
+                                                className="form-control mx-3 col-md mt-2"
                                                 name="otp"
                                                 value={userotp}
                                                 onChange={handelotp}
                                             />
+                                            <div className='col-md'>
                                             <button
                                                 type="button"
-                                                className="btn btn-success"
+                                                className="mt-2 btn btn-success"
                                                 onClick={handelVerify}
                                             >
                                                 Verify
                                             </button>
+                                            </div>
                                         </div>
                                     )
                                     }
