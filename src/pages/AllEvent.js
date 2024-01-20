@@ -9,17 +9,16 @@ const AllEvent = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await fetch('http://localhost:5000/clg/getAllEvents', {
-          method: 'POST',
+        const response = await fetch("http://localhost:5000/clg/getAllCurryearEvents", {
+          method: "POST",
         });
         if (!response.ok) {
-          throw new Error('Failed to fetch events');
+          throw new Error("Failed to fetch events");
         }
         const data = await response.json();
-        console.log(data);
         setEvents(data);
       } catch (error) {
-        console.error('Error fetching events:', error.message);
+        console.error("Error fetching events:", error.message);
       }
     };
 
