@@ -48,7 +48,7 @@ export default function Schedule() {
     if (name === "event") {
       try {
         const response = await fetch(
-          `http://localhost:5000/clg/getParticipatedclg/${value}`,
+          `http://localhost:5000/clg/getParticipatedclgNotScheduled/${value}`,
           {
             method: "GET",
             headers: {
