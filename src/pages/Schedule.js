@@ -64,6 +64,7 @@ export default function Schedule() {
         setColleges(data.participatingColleges);
         setCollegesForClg1(data.participatingColleges);
         setCollegesForClg2(data.participatingColleges);
+
       } catch (error) {
         console.error("Error fetching events:", error.message);
       }
@@ -102,6 +103,7 @@ export default function Schedule() {
       console.error("Error creating match:", error.message);
     }
   };
+
 
   return (
     <Layout>

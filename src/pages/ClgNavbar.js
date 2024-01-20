@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import "../styles/ClgNavbar.css";
 
-const OrganizerNavbar = ({ orgClgId }) => {
+const OrganizerNavbar = ({ orgClgId, setEnable }) => {
   const navigate = useNavigate();
   const eventId = useParams();
   const [isOrgClg, setOrgClg] = useState(false);
@@ -25,6 +25,7 @@ const OrganizerNavbar = ({ orgClgId }) => {
         // console.log(id)
         if (id == orgClgId) {
           setOrgClg(true);
+          setEnable(true)
         }
       } catch (error) {
         console.error("Error decoding token:", error);
