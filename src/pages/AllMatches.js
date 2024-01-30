@@ -30,7 +30,7 @@ export default function Matches() {
         <h2 className="all-events-heading">All Events</h2>
         <div className="event-grid">
           {events.map((event) => (
-            <Link key={event._id} to={`/Home/matches/${event._id}`} className="event-card-link">
+            <Link key={event._id} to={`/Home/matches/scheduled/${event._id}`} className="event-card-link">
               <div className="event-card" style={{ backgroundImage: `url(${event.img_url})` }}>
                 <h2>{event.event_name}</h2>
               </div>

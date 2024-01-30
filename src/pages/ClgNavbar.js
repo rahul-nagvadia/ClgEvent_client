@@ -78,6 +78,17 @@ const OrganizerNavbar = ({ orgClgId, setEnable }) => {
               </li>
             )}
 
+{isLogin && isOrgClg && (
+              <li className="nav-item">
+                <NavLink
+                  className="btn btn-link nav-link" activeClassName='active'
+                  to='/Home/leaderboard'
+                >
+                  Leaderboard
+                </NavLink>
+              </li>
+            )}
+
             <li className="nav-item">
               <NavLink
                 className="btn btn-link nav-link" activeClassName='active'
@@ -103,6 +114,14 @@ const OrganizerNavbar = ({ orgClgId, setEnable }) => {
               </li>
             ) : (
               <>
+              <li className="nav-item">
+                  <NavLink
+                    className="btn btn-link nav-link" activeClassName='active'
+                    to='/Home/userProfile'
+                  >
+                    Update Profile
+                  </NavLink>
+                </li>
                 <li className="nav-item">
                   <button
                     className="btn btn-link nav-link"
@@ -111,14 +130,7 @@ const OrganizerNavbar = ({ orgClgId, setEnable }) => {
                     Logout
                   </button>
                 </li>
-                <li className="nav-item">
-                  <NavLink
-                    className="btn btn-link nav-link" activeClassName='active'
-                    to='/Home/userProfile'
-                  >
-                    Update Profile
-                  </NavLink>
-                </li>
+                
               </>
             )}
           </ul>

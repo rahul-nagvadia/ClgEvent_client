@@ -109,6 +109,7 @@ export default function EventMatch() {
         } else if (e.target.name === "clg2") {
             updateMatchState(index, { isSure1: false, isSure2: true });
         }
+        return;
     };
     
 
@@ -159,6 +160,7 @@ export default function EventMatch() {
                 i === index ? { ...state, ...newState } : state
             );
         });
+        return;
     };
     
 

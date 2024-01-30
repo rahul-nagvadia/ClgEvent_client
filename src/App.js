@@ -20,6 +20,7 @@ import UserProfile from "./pages/UserProfile";
 import Schedule from "./pages/Schedule";
 import AllMatches from "./pages/AllMatches";
 import EventMatch from "./pages/EventMatch";
+import Leaderboard from "./pages/Leaderboard";
 
 const router = createBrowserRouter([
   {
@@ -87,6 +88,10 @@ const router = createBrowserRouter([
         element: <Schedule/>
       },
       {
+        path : 'leaderboard',
+        element: <Leaderboard/>
+      },
+      {
         path: 'matches',
         children : [
           {
@@ -94,7 +99,7 @@ const router = createBrowserRouter([
             element: < AllMatches />
           },
           {
-            path:':eventID',
+            path:'scheduled/:eventID',
             element: < EventMatch />
           }
         ]

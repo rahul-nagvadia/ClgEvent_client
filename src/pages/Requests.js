@@ -45,11 +45,11 @@ export default function Requests() {
         {requests.map(request => (
           <li key={request._id}>
             <div>
-              <strong>Username:</strong> {request.username}<br />
-              <strong>College Name:</strong> {request.clg_name}<br />
-              <strong>City:</strong> {request.city}<br />
-              <strong>Email:</strong> {request.email}<br />
-              <strong>Mobile Number:</strong> {request.mobile_no}<br />
+              <strong>Username:</strong> {request.username}<br/>
+              <strong>College Name:</strong> {request.clg_name}<br/>
+              <strong>City:</strong> {request.city}<br/>
+              <strong>Email:</strong> {request.email}<br/>
+              <strong>Mobile Number:</strong> {request.mobile_no}<br/>
             </div>
             <button onClick={() => handleAccept(request._id)}>Accept</button>
             <button onClick={() => handleDecline(request._id)}>Decline</button>
