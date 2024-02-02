@@ -4,12 +4,12 @@ import { jwtDecode } from 'jwt-decode';
 
 export default function UserProfile() {
 
-    const [user, setUser] = useState({ username: "", password: "", email: "", mobile_no: "", city: "" });
-    
-
+    const [user, setUser] = useState({id : "", username: "", password: "", email: "", mobile_no: "", city: "" });
+    const [sentOTP, setSentOTP] = useState(false)
+    const [otp, setotp] = useState("");
     const [userid, setUserId] = useState('')
-
-
+    const [userotp, setuserotp] = useState("");
+    const [passwordChanged, setPasswordChanged] = useState(false);
     useEffect(() => {
         const authToken = localStorage.getItem("authToken");
 
@@ -29,32 +29,73 @@ export default function UserProfile() {
 
     useEffect(() => {
         const fetchUserDetails = async () => {
-          try {
-            const res = await fetch(`http://localhost:5000/clg/getClgDetails/${userid}`, {
-                method : 'POST' 
-            });
-            const data = await res.json();
-            const user = { username: data.clg.username, password: "", email: data.clg.email, mobile_no: data.clg.mobile_no, city: data.clg.city }
-            setUser(user);
-          } catch (error) {
-            console.error('Error While Fetching:', error.message);
-          }
+            try {
+                const res = await fetch(`http://localhost:5000/clg/getClgDetails/${userid}`, {
+                    method: 'POST'
+                });
+                const data = await res.json();
+                const user = { id : data.clg._id, username: data.clg.username, password: "**********", email: data.clg.email, mobile_no: data.clg.mobile_no, city: data.clg.city }
+                setUser(user);
+            } catch (error) {
+                console.error('Error While Fetching:', error.message);
+            }
         };
-    
+
         if (userid) {
-          fetchUserDetails();
+            fetchUserDetails();
         }
-      }, [userid]);
+    }, [userid]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
+        if(name == "password"){
+            setPasswordChanged(true);
+        }
         setUser({ ...user, [name]: value });
 
     };
 
+    const handelotp = (e) => {
+        const val = e.target.value;
+        setuserotp(val);
+    };
+
+    const handelVerify = async () => {
+        if (otp === userotp) {
+            // isVerified(true);// Clear any previous error message
+            try {
+                const response = await fetch('http://localhost:5000/clg/userUpdate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        user : user,
+                        isVerified : true,
+                        passChanged : passwordChanged
+                    }),
+                });
+                const data = await response.json();
+                if(data.success){
+                    alert("Successfully Updated Your Information")
+                    setSentOTP(false);
+                }
+                else{
+                    alert("Some Error has occured while Updating...")
+                }
+                // Reset the form after successful submission
+                // setUser({ username: "", password: "", email: "", mobile_no: "", city: "" });
+            } catch (error) {
+                console.error('Error submitting participants:', error.message);
+            }
+        } else {
+            alert("OTP verification failed. Please enter the correct OTP.")
+        }
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setSentOTP(true);
         console.log(user)
         try {
             const response = await fetch('http://localhost:5000/clg/userUpdate', {
@@ -63,22 +104,21 @@ export default function UserProfile() {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    user: user
+                    user: user,
+                    isVerified : false
                 }),
             });
-            if (response.status === 400) {
-                window.alert("Your College have already participated in this event");
+            const data = await response.json();
+            if(data.success){
+                setotp(data.otp);
+                alert(`OTP is Sent to Your Email id : ${data.email}`)
             }
-            if (response.status === 300) {
-                window.alert("Succesfully Participated!!");
-            }
-
-            if (!response.ok) {
-                throw new Error('Failed to add participants');
+            else{
+                alert("OTP is not generated or Sent... Your Email is not proper... Try Again Later.")
             }
 
             // Reset the form after successful submission
-            setUser({ username: "", password: "", email: "", mobile_no: "", city: "" });
+            // setUser({ username: "", password: "", email: "", mobile_no: "", city: "" });
         } catch (error) {
             console.error('Error submitting participants:', error.message);
         }
@@ -167,6 +207,29 @@ export default function UserProfile() {
                                     <button type="submit" className="btn btn-primary">
                                         Update
                                     </button>
+                                    {sentOTP && (
+                                        <div className="row">
+                                            <input
+                                                type="text"
+                                                placeholder="Enter OTP"
+                                                className="form-control mx-3 col-md mt-2"
+                                                name="otp"
+                                                value={userotp}
+                                                onChange={handelotp}
+                                            />
+                                            <div className='col-md'>
+                                            <button
+                                                type="button"
+                                                className="mt-2 btn btn-success"
+                                                onClick={handelVerify}
+                                            >
+                                                Verify
+                                            </button>
+                                            </div>
+                                        </div>
+                                    )
+                                    }
+
                                 </form>
                             </div>
                         </div>
