@@ -1,30 +1,27 @@
 import { jwtDecode } from 'jwt-decode';
 import React, { useEffect, useState } from 'react';
-
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, NavLink, useLocation, useNavigate, useParams } from 'react-router-dom';
 import '../styles/ClgNavbar.css';
-
-
 
 const OrganizerNavbar = ({ orgClgId }) => {
   const navigate = useNavigate();
   const eventId = useParams();
-  const [isOrgClg, setOrgClg] = useState(false)
+  const location = useLocation();
+  const [isOrgClg, setOrgClg] = useState(false);
 
-  const [isLogin, setIsLogin] = useState(false)
-  const [id, setId] = useState()
-  const [uname, setUname] = useState()
+  const [isLogin, setIsLogin] = useState(false);
+  const [id, setId] = useState();
+  const [uname, setUname] = useState();
 
   useEffect(() => {
     const authToken = localStorage.getItem("authToken");
 
     if (authToken) {
-      setIsLogin(true)
+      setIsLogin(true);
       try {
         const decodedToken = jwtDecode(authToken);
         setId(decodedToken.user.id);
         setUname(decodedToken.user.username);
-        // console.log(id)
         if (id == orgClgId) {
           setOrgClg(true);
         }
@@ -33,27 +30,12 @@ const OrganizerNavbar = ({ orgClgId }) => {
         console.error("Error decoding token:", error);
       }
     }
-  });
+  }, [id, orgClgId]);
 
   const handleLogout = () => {
     localStorage.removeItem('authToken');
     navigate('/login');
   };
-
-  const handleLogin = () => {
-    navigate('/login');
-  };
-  const handleAddEvent = () => {
-    navigate('/Home/add-event');
-  };
-
-  const handleAllEvents = () => {
-    navigate('/Home/all-events');
-  };
-  const handleUpdateProfile = () => {
-    navigate('/Home/userProfile');
-  };
-
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark text-light">
@@ -66,32 +48,42 @@ const OrganizerNavbar = ({ orgClgId }) => {
           <ul className="navbar-nav ml-auto">
             {isLogin && isOrgClg && (
               <li className="nav-item">
-                <button className="btn btn-link nav-link" onClick={handleAddEvent}>Add Event</button>
+                <NavLink to='/Home/add-event' className='nav-link' activeClassName='active'>
+                  Add Event
+                </NavLink>
               </li>
             )}
             <li className="nav-item">
-              <button className="btn btn-link nav-link" onClick={handleAllEvents}>All Events</button>
+              <NavLink to='/Home/all-events' className='nav-link' activeClassName='active'>
+                All Events
+              </NavLink>
             </li>
             {!isLogin ? (
               <li className="nav-item">
-                <button className="btn btn-link nav-link" onClick={handleLogin}>Login</button>
+                <NavLink to='/login' className='nav-link' activeClassName='active'>
+                  Login
+                </NavLink>
               </li>
-            ) :
-              (
-                <>
-                  
-              
-                  <li className="nav-item">
-                    <button className="btn btn-link nav-link" onClick={handleLogout}>Logout</button>
-                  </li>
-                  <li className="nav-item">
-                    <button className="btn btn-link nav-link" onClick={handleUpdateProfile}>Update Profile</button>
-                  </li>
-                </>
-              )
-            }
+            ) : (
+              <>
+                <li className="nav-item">
+                  <NavLink to='/Home/schedule' className='nav-link' activeClassName='active'>
+                    Schedule
+                  </NavLink>
+                </li>
+                <li className="nav-item">
+                  <NavLink to='/Home/userProfile' className='nav-link' activeClassName='active'>
+                    Update Profile
+                  </NavLink>
+                </li>
+                <li className="nav-item">
+                  <button className="btn btn-link nav-link" onClick={handleLogout}>
+                    Logout
+                  </button>
+                </li>
+              </>
+            )}
           </ul>
-          
         </div>
       </div>
     </nav>

@@ -49,7 +49,7 @@ function ShowPlayers() {
     return (
         <Layout>
             <div className="centered-container">
-                
+            
                 <h2>Players of {clgName} in {eventName}</h2>
                 {players.length > 0 ? (
                     <table className="players-table">

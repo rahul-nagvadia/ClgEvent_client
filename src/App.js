@@ -17,6 +17,7 @@ import AddParticipate from './pages/AddParticipate';
 import ParticipatedClg from "./pages/ParticipatedClg";
 import ShowPlayers from "./pages/ShowPlayers";
 import UserProfile from "./pages/UserProfile";
+import Schedule from "./pages/Schedule";
 
 const router = createBrowserRouter([
   {
@@ -78,6 +79,10 @@ const router = createBrowserRouter([
       {
         path:'userProfile',
         element: <UserProfile />
+      },
+      {
+        path: 'schedule',
+        element: <Schedule />
       }
       
     ],
