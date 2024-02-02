@@ -9,16 +9,16 @@ export default function EventMatch() {
     const [matchStates, setMatchStates] = useState([
         // Initial state for the first object in the array
         {
-          winnerUpdated: false,
-          isSure1: false,
-          isSure2: false,
-          clg1: '',
-          clg2: '',
-          btnDisable: false,
+            winnerUpdated: false,
+            isSure1: false,
+            isSure2: false,
+            clg1: '',
+            clg2: '',
+            btnDisable: false,
         },
         // Additional initial states for more objects can be added here if needed
-      ]);
-       // State for each match
+    ]);
+    // State for each match
     // const [btnDisable, setBtnDisable] = useState(false);
     // const [currentIndex, setCurrentIndex] = useState(null);
     const [isEnable, setIsEnable] = useState(false);
@@ -61,11 +61,11 @@ export default function EventMatch() {
                 // Initialize state for each match
                 const initialMatchStates = data.matches.map((match) => (
                     {
-                    winnerUpdated: (match.winner ? true : false),
-                    isSure1: false,
-                    isSure2: false,
-                    clg1: match.clg1._id,
-                    clg2: match.clg2._id,
+                        winnerUpdated: (match.winner ? true : false),
+                        isSure1: false,
+                        isSure2: false,
+                        clg1: match.clg1._id,
+                        clg2: match.clg2._id,
                     }
                 ));
 
@@ -111,7 +111,7 @@ export default function EventMatch() {
         }
         return;
     };
-    
+
 
     const YesClicked = (e, index) => {
         const matchState = matchStates[index];
@@ -119,7 +119,7 @@ export default function EventMatch() {
 
         if (name === "clg1") {
             winnerSave(index, matchState.clg1);
-            updateMatchState(index, { isSure1: false});
+            updateMatchState(index, { isSure1: false });
         } else if (name === "clg2") {
             winnerSave(index, matchState.clg2);
             updateMatchState(index, { isSure2: false });
@@ -145,11 +145,11 @@ export default function EventMatch() {
         const name = e.target.name;
         if (name === "clg1") {
             updateMatchState(index, { isSure1: false });
-            
+
         }
         else if (name === "clg2") {
             updateMatchState(index, { isSure2: false });
-            
+
         }
         // setMatchStates(updateMatchState(index, { isSure1: false, isSure2: false }));
     }
@@ -162,7 +162,7 @@ export default function EventMatch() {
         });
         return;
     };
-    
+
 
     let fnSetEnable = (data) => {
         setIsEnable(data);
@@ -183,9 +183,10 @@ export default function EventMatch() {
                                     <div className="card-header">
                                         <div className='row'>
                                             <div className='col-sm' style={{ color: "grey" }}>
-                                        
-                                                <h5>Match - {index + 1}</h5>
+
+                                                <h5>Round - {match.round}</h5>
                                             </div>
+
 
                                             <div className='col-sm' style={{ color: "grey" }}>
                                                 <h5>Timing : {match.time}</h5>
@@ -198,6 +199,11 @@ export default function EventMatch() {
                                         </div>
                                     </div>
                                     <div className="card-body">
+                                        <div className="row">
+                                            <div className='col-sm text-center' style={{ color: "green" }}>
+                                                <h5>Match - {index + 1}</h5>
+                                            </div>
+                                        </div>
                                         <div className='row'>
                                             <div className='col-sm text-left'>
                                                 <h2 className=''>{match.clg1.clg_name}</h2>
@@ -236,7 +242,7 @@ export default function EventMatch() {
                                                 {
                                                     isEnable && !matchStates[index].winnerUpdated && (
                                                         <div>
-                                                            
+
                                                             <button className='btn btn-primary' name='clg2' onClick={(e) => winnerClick(e, index)}>winner</button>
                                                             {
                                                                 matchStates[index].isSure2 && (

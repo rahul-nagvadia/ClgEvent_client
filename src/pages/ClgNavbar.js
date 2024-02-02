@@ -130,6 +130,9 @@ const OrganizerNavbar = ({ orgClgId, setEnable }) => {
                     Logout
                   </button>
                 </li>
+                <li className="nav-item mx-2 mt-1" style={{color : "lightsalmon", fontFamily : "cursive", fontSize : "20px"}}>
+                  <span>{uname}</span>
+                </li>
                 
               </>
             )}

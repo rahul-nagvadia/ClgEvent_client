@@ -11,7 +11,8 @@ export default function Schedule() {
     event: "",
     matchDate: "",
     time: "",
-    winner: ""
+    winner: "",
+    round: ""
   });
   const [collegesForClg1, setCollegesForClg1] = useState([]);
   const [collegesForClg2, setCollegesForClg2] = useState([]);
@@ -80,6 +81,32 @@ export default function Schedule() {
     }
   };
 
+  const handleRoundChange = async (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      round: value
+    })
+    console.log("Harsh")
+    try{
+      const response = await fetch(`http://localhost:5000/clg/getClgsParticipated/${formData.event}/${value}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await response.json();
+      if (!data.success) {
+        throw new Error("Failed to fetch events");
+      }
+      setColleges(data.clgs);
+      setCollegesForClg1(data.clgs);
+      setCollegesForClg2(data.clgs);
+    }catch(error){
+      console.error("Error Caught while Round Change");
+    }
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -93,7 +120,7 @@ export default function Schedule() {
       if (!response.ok) {
         throw new Error("Failed to create match");
       }
-      if(response.status === 200){
+      if (response.status === 200) {
         window.alert("Match scheduled");
         window.location.reload();
       }
@@ -108,7 +135,7 @@ export default function Schedule() {
       <div className="container mt-5">
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label>Select Event:</label>
+            <label>Event Name:</label>
             <select
               className="form-control"
               name="event"
@@ -124,7 +151,15 @@ export default function Schedule() {
             </select>
           </div>
           <div className="form-group">
-            <label>Select College 1:</label>
+            <label for="round">Round No.</label>
+            <select className="form-control" id="round" value={formData.round} onChange={handleRoundChange}>
+              <option value="">Select Event</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+            </select>
+          </div>
+          <div className="form-group">
+            <label>College 1:</label>
             <select
               className="form-control"
               name="clg1"
@@ -140,7 +175,7 @@ export default function Schedule() {
             </select>
           </div>
           <div className="form-group">
-            <label>Select College 2:</label>
+            <label>College 2:</label>
             <select
               className="form-control"
               name="clg2"
@@ -157,7 +192,7 @@ export default function Schedule() {
           </div>
 
           <div className="form-group">
-            <label>Select Date:</label>
+            <label>Match Date:</label>
             <input
               type="date"
               className="form-control"
@@ -167,7 +202,7 @@ export default function Schedule() {
             />
           </div>
           <div className="form-group">
-            <label>Select Time:</label>
+            <label>Match Time:</label>
             <input
               type="time"
               className="form-control"
