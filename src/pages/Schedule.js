@@ -87,7 +87,7 @@ export default function Schedule() {
       ...formData,
       round: value
     })
-    console.log("Harsh")
+    
     try{
       const response = await fetch(`http://localhost:5000/clg/getClgsParticipated/${formData.event}/${value}`, {
         method: "GET",
@@ -153,7 +153,7 @@ export default function Schedule() {
           <div className="form-group">
             <label for="round">Round No.</label>
             <select className="form-control" id="round" value={formData.round} onChange={handleRoundChange}>
-              <option value="">Select Event</option>
+              <option value="">Select Round</option>
               <option value="1">1</option>
               <option value="2">2</option>
             </select>
