@@ -1,15 +1,13 @@
-import { jwtDecode } from 'jwt-decode';
-import React, { useEffect, useState } from 'react';
+import { jwtDecode } from "jwt-decode";
+import React, { useEffect, useState } from "react";
 
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import '../styles/ClgNavbar.css';
+import { Link, NavLink, useNavigate, useParams } from "react-router-dom";
+import "../styles/ClgNavbar.css";
 
-
-
-const OrganizerNavbar = ({ orgClgId }) => {
+const OrganizerNavbar = ({ orgClgId, setEnable }) => {
   const navigate = useNavigate();
   const eventId = useParams();
-  const [isOrgClg, setOrgClg] = useState(false)
+  const [isOrgClg, setOrgClg] = useState(false);
 
   const [isLogin, setIsLogin] = useState(false);
   const [id, setId] = useState();
@@ -24,6 +22,7 @@ const OrganizerNavbar = ({ orgClgId }) => {
         const decodedToken = jwtDecode(authToken);
         setId(decodedToken.user.id);
         setUname(decodedToken.user.username);
+        // console.log(id)
         if (id == orgClgId) {
           setOrgClg(true);
           setEnable(true)
@@ -32,27 +31,12 @@ const OrganizerNavbar = ({ orgClgId }) => {
         console.error("Error decoding token:", error);
       }
     }
-  }, [id, orgClgId]);
+  });
 
   const handleLogout = () => {
-    localStorage.removeItem('authToken');
-    navigate('/login');
+    localStorage.removeItem("authToken");
+    navigate("/login");
   };
-
-  const handleLogin = () => {
-    navigate('/login');
-  };
-  const handleAddEvent = () => {
-    navigate('/Home/add-event');
-  };
-
-  const handleAllEvents = () => {
-    navigate('/Home/all-events');
-  };
-  const handleUpdateProfile = () => {
-    navigate('/Home/userProfile');
-  };
-
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark text-light">
@@ -75,9 +59,35 @@ const OrganizerNavbar = ({ orgClgId }) => {
           <ul className="navbar-nav ml-auto">
             {isLogin && isOrgClg && (
               <li className="nav-item">
-                <button className="btn btn-link nav-link" onClick={handleAddEvent}>Add Event</button>
+                <NavLink
+                  className="btn btn-link nav-link" activeClassName='active'
+                  to='/Home/add-event'
+                >
+                  Add Event
+                </NavLink>
               </li>
             )}
+            {isLogin && isOrgClg && (
+              <li className="nav-item">
+                <NavLink
+                  className="btn btn-link nav-link" activeClassName='active'
+                  to='/Home/schedule'
+                >
+                  Schedule Match
+                </NavLink>
+              </li>
+            )}
+
+
+            <li className="nav-item">
+              <NavLink
+                className="btn btn-link nav-link" activeClassName='active'
+                to='/Home/leaderboard'
+              >
+                Leaderboard
+              </NavLink>
+            </li>
+
 
             <li className="nav-item">
               <NavLink
@@ -89,26 +99,43 @@ const OrganizerNavbar = ({ orgClgId }) => {
             </li>
 
             <li className="nav-item">
-              <button className="btn btn-link nav-link" onClick={handleAllEvents}>All Events</button>
+              <NavLink
+                className="btn btn-link nav-link" activeClassName='active'
+                to='/Home/all-events'
+              >
+                All Events
+              </NavLink>
             </li>
             {!isLogin ? (
               <li className="nav-item">
-                <button className="btn btn-link nav-link" onClick={handleLogin}>Login</button>
+                <NavLink className="btn btn-link nav-link" activeClassName='active' to='/login'>
+                  Login
+                </NavLink>
               </li>
-            ) :
-              (
-                <>
-                  
-              
-                  <li className="nav-item">
-                    <button className="btn btn-link nav-link" onClick={handleLogout}>Logout</button>
-                  </li>
-                  <li className="nav-item">
-                    <button className="btn btn-link nav-link" onClick={handleUpdateProfile}>Update Profile</button>
-                  </li>
-                </>
-              )
-            }
+            ) : (
+              <>
+                <li className="nav-item">
+                  <NavLink
+                    className="btn btn-link nav-link" activeClassName='active'
+                    to='/Home/userProfile'
+                  >
+                    Update Profile
+                  </NavLink>
+                </li>
+                <li className="nav-item">
+                  <button
+                    className="btn btn-link nav-link"
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </button>
+                </li>
+                <li className="nav-item mx-2 mt-1" style={{ color: "lightsalmon", fontFamily: "cursive", fontSize: "20px" }}>
+                  <span>{uname}</span>
+                </li>
+
+              </>
+            )}
           </ul>
         </div>
       </div>
