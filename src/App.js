@@ -17,6 +17,10 @@ import AddParticipate from './pages/AddParticipate';
 import ParticipatedClg from "./pages/ParticipatedClg";
 import ShowPlayers from "./pages/ShowPlayers";
 import UserProfile from "./pages/UserProfile";
+import Schedule from "./pages/Schedule";
+import AllMatches from "./pages/AllMatches";
+import EventMatch from "./pages/EventMatch";
+import Leaderboard from "./pages/Leaderboard";
 
 const router = createBrowserRouter([
   {
@@ -78,6 +82,27 @@ const router = createBrowserRouter([
       {
         path:'userProfile',
         element: <UserProfile />
+      },
+      {
+        path: 'schedule',
+        element: <Schedule/>
+      },
+      {
+        path : 'leaderboard',
+        element: <Leaderboard/>
+      },
+      {
+        path: 'matches',
+        children : [
+          {
+            index : true,
+            element: < AllMatches />
+          },
+          {
+            path:'scheduled/:eventID',
+            element: < EventMatch />
+          }
+        ]
       }
       
     ],
@@ -102,3 +127,4 @@ function App() {
 }
 
 export default App;
+
