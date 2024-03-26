@@ -55,6 +55,10 @@ export default function UserProfile() {
 
     };
 
+    const handleChange2 = (e) => {
+        window.alert("You can not change the email-id");
+    }
+
     const handelotp = (e) => {
         const val = e.target.value;
         setuserotp(val);
@@ -173,7 +177,7 @@ export default function UserProfile() {
                                             id="email"
                                             name="email"
                                             value={user.email}
-                                            onChange={handleChange}
+                                            onChange={handleChange2}
                                         />
                                     </div>
 

@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Layout from "./Layout";
 import { jwtDecode } from "jwt-decode";
+import ReactPlayer from 'react-player';
 import EventsHist from "./EventsHist";
+import video from '../static/SDP_video.mp4';
 
 const CollegeList = () => {
   const [college, setCollege] = useState({});
@@ -55,7 +57,7 @@ const CollegeList = () => {
   return (
     <>
       <Layout orgClgId={college._id}>
-        <h1>Colleges</h1>
+        {/* <h1>Colleges</h1>
 
         <div>
           <h3>College Name:</h3> {college.clg_name}
@@ -66,9 +68,22 @@ const CollegeList = () => {
           <br />
           <h3>Mobile Number:</h3> {college.mobile_no}
           <br />
+        </div> */}
+
+        <div>
+          <ReactPlayer
+            url={video}
+            playing
+            loop
+            width='100%'
+            height='100%'
+          />
+          {/* <div style={{ position: 'absolute', top: '70%', left: '65%', transform: 'translate(-50%, -50%)', color: 'white', fontSize: '24px' }}>
+            <b>DDIT is organizing the event in 2024</b>
+          </div> */}
         </div>
       </Layout>
-      <EventsHist></EventsHist>
+      {/* <EventsHist></EventsHist> */}
     </>
   );
 };

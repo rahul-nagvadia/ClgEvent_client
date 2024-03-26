@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Layout from "./Layout";
+import "../styles/Schedule.css"; 
 
 export default function Schedule() {
 
@@ -129,6 +130,8 @@ export default function Schedule() {
     }
   };
 
+  const currentDate = new Date().toISOString().split('T')[0];
+
 
   return (
     <Layout>
@@ -199,6 +202,7 @@ export default function Schedule() {
               name="matchDate"
               value={formData.matchDate}
               onChange={handleInputChange}
+              min={currentDate}
             />
           </div>
           <div className="form-group">

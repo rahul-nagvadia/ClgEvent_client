@@ -6,6 +6,8 @@ import '../styles/eventdetails.css';
 const EventDetails = () => {
     const { eventId } = useParams();
     const [eventDetails, setEventDetails] = useState({});
+    const [registrationClosed, setRegistrationClosed] = useState(false);
+    const [selectedDate, setSelectedDate] = useState(null);
 
     useEffect(() => {
         const fetchEventDetails = async () => {
@@ -20,6 +22,13 @@ const EventDetails = () => {
 
                 const data = await response.json();
                 setEventDetails(data);
+
+                // Check if registration is closed based on current date and registration date
+                const currentDate = new Date();
+                const regDate = new Date(data.reg_date);
+                if (currentDate > regDate) {
+                    setRegistrationClosed(true);
+                }
             } catch (error) {
                 console.error('Error fetching event details:', error.message);
             }
@@ -27,6 +36,10 @@ const EventDetails = () => {
 
         fetchEventDetails();
     }, [eventId]);
+
+    const handleDateChange = (date) => {
+        setSelectedDate(date);
+    };
 
     if (!eventDetails.event_name) {
         return <p>Loading event details...</p>;
@@ -66,18 +79,23 @@ const EventDetails = () => {
                     <h3>Final Date of Registration</h3>
                     <p>{formatDate(eventDetails.reg_date)}</p>
 
-                    <div className="action-buttons">
-                        <Link to="addParticipant" state={{ players: eventDetails.players }} className="participate-button">
-                            Participate
-                        </Link>
-                        <Link
-                            to="participatedclg"
-                            state={{ event: eventDetails }}
-                            className="participated-college-button"
-                        >
-                            Participated College
-                        </Link>
-                    </div>
+                    {registrationClosed ? (
+                        <p><b>Registration is closed for this event.</b></p>
+                    ) : (
+                        <>
+                            <Link to="addParticipant" state={{ players: eventDetails.players }} className="participate-button" disabled={registrationClosed}>
+                                Participate
+                            </Link>
+                        </>
+                    )}
+
+                    <Link
+                        to="participatedclg"
+                        state={{ event: eventDetails }}
+                        className="participated-college-button"
+                    >
+                        Participated College
+                    </Link>
                 </div>
             </div>
         </Layout>

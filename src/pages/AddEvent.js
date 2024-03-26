@@ -17,14 +17,14 @@ const AddEventForm = () => {
 
     useEffect(() => {
         const authToken = localStorage.getItem("authToken");
-          try {
+        try {
             const decodedToken = jwtDecode(authToken);
             eventData.clg = decodedToken.user.id;
-          } catch (error) {
+        } catch (error) {
             console.error("Error decoding token:", error);
-          }
-        
-      });
+        }
+
+    });
 
     const handleChange = (e) => {
         const name = e.target.name;
@@ -66,6 +66,8 @@ const AddEventForm = () => {
         }
     };
 
+    const currentDate = new Date().toISOString().split('T')[0]; 
+
     return (
         <Layout>
             <div className="add-event-container">
@@ -84,10 +86,10 @@ const AddEventForm = () => {
                     <textarea name="event_desc" value={eventData.event_desc} onChange={handleChange} required />
 
                     <label>Event Date:</label>
-                    <input type="date" name="event_date" value={eventData.event_date} onChange={handleChange} required />
+                    <input type="date" name="event_date" value={eventData.event_date} onChange={handleChange} min={currentDate} required />
 
                     <label>Registration Date:</label>
-                    <input type="date" name="reg_date" value={eventData.reg_date} onChange={handleChange} required />
+                    <input type="date" name="reg_date" value={eventData.reg_date} onChange={handleChange} min={currentDate} required />
 
                     <label>Image URL:</label>
                     <input type="text" name="img_url" value={eventData.img_url} onChange={handleChange} />

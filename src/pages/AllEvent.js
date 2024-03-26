@@ -3,6 +3,7 @@ import Layout from './Layout';
 import { Link } from 'react-router-dom';
 import '../styles/allevents.css';
 
+
 const AllEvent = () => {
   const [events, setEvents] = useState([]);
 

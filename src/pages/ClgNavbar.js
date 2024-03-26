@@ -39,7 +39,7 @@ const OrganizerNavbar = ({ orgClgId, setEnable }) => {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark text-light">
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark text-light sticky-top">
       <div className="container mx-1">
         <Link to="/Home" className="navbar-brand">
           Your Logo

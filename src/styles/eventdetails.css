@@ -29,12 +29,12 @@
 .participate-button {
     background-color: #104ec1; 
     color: #fff;
-    padding: 12px 12px; 
+    padding: 10px 10px;
     font-size: 18px; 
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    margin-top: 20px;
+    margin-top: 15%;
     text-decoration: none;
     transition: background-color 0.3s; 
 }
@@ -46,13 +46,12 @@
 .participated-college-button {
     background-color: #7912d2; /* Red color for participated college button */
     color: #fff;
-    padding: 12px 12px;
+    padding: 10px 10px;
     font-size: 18px;
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    margin-top: 20px;
-    margin-left: 20px;
+    margin-left: 10px;
     text-decoration: none;
     transition: background-color 0.3s;
 }

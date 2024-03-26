@@ -22,7 +22,7 @@ const AddParticipate = () => {
         console.error("Error decoding token:", error);
       }
     }
-  },[]);
+  }, []);
 
   useEffect(() => {
     const fetchEventDetails = async () => {
@@ -46,7 +46,7 @@ const AddParticipate = () => {
   }, [eventId]);
 
   useEffect(() => {
-    
+
     setParticipants(Array.from({ length: players }, () => ({ name: '', mobileno: '' })));
   }, [players]);
 
@@ -88,11 +88,11 @@ const AddParticipate = () => {
           userid
         }),
       });
-      if(response.status === 400){
+      if (response.status === 400) {
         window.alert("Your College have already participated in this event");
         navigate('/Home/all-events')
       }
-      else if(response.status === 200){
+      else if (response.status === 200) {
         window.alert("Succesfully Participated!!");
         navigate('/Home/all-events')
       }
@@ -108,50 +108,50 @@ const AddParticipate = () => {
     }
   };
 
-return (
-  <Layout>
-    <div className="container mt-4">
-      <h2>Add Participants</h2>
-      <form onSubmit={handleSubmit}>
-      {participants.map((participant, index) => (
-      <div key={index} className="row mb-3">
-        <div className="col-md-6">
-          <label htmlFor={`name${index}`} className="form-label">
-            Name{index + 1}
-          </label>
-          <input
-            type="text"
-            className="form-control"
-            id={`name${index}`}
-            name={`name${index}`}
-            value={participant.name}
-            onChange={(e) => handleNameChange(e, index)}
-            required
-          />
-        </div>
-        <div className="col-md-6">
-          <label htmlFor={`mobileno${index}`} className="form-label">
-            mobileno{index + 1}
-          </label>
-          <input
-            type="mobileno"
-            className="form-control"
-            id={`mobileno${index}`}
-            name={`mobileno${index}`}
-            value={participant.mobileno}
-            onChange={(e) => handlemobilenoChange(e, index)}
-            required
-          />
-        </div>
+  return (
+    <Layout>
+      <div className="container mt-4">
+        <h2>Add Participants</h2>
+        <form onSubmit={handleSubmit}>
+          {participants.map((participant, index) => (
+            <div key={index} className="row mb-3">
+              <div className="col-md-6">
+                <label htmlFor={`name${index}`} className="form-label">
+                  Name{index + 1}
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id={`name${index}`}
+                  name={`name${index}`}
+                  value={participant.name}
+                  onChange={(e) => handleNameChange(e, index)}
+                  required
+                />
+              </div>
+              <div className="col-md-6">
+                <label htmlFor={`mobileno${index}`} className="form-label">
+                  mobileno{index + 1}
+                </label>
+                <input
+                  type="mobileno"
+                  className="form-control"
+                  id={`mobileno${index}`}
+                  name={`mobileno${index}`}
+                  value={participant.mobileno}
+                  onChange={(e) => handlemobilenoChange(e, index)}
+                  required
+                />
+              </div>
+            </div>
+          ))}
+          <button type="submit" className="btn btn-primary">
+            Add Participants
+          </button>
+        </form>
       </div>
-    ))}
-        <button type="submit" className="btn btn-primary">
-          Add Participants
-        </button>
-      </form>
-    </div>
-  </Layout>
-);
+    </Layout>
+  );
 };
 
 export default AddParticipate;

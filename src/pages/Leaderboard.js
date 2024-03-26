@@ -1,6 +1,8 @@
-// components/Leaderboard.js
 import React, { useEffect, useState } from 'react';
 import Layout from './Layout';
+import CanvasJSReact from '@canvasjs/react-charts';
+
+const { CanvasJSChart } = CanvasJSReact;
 
 const Leaderboard = () => {
   const [leaderboard, setLeaderboard] = useState([]);
@@ -20,6 +22,27 @@ const Leaderboard = () => {
 
     fetchLeaderboard();
   }, []);
+
+  const pieChartData = leaderboard.map((clg) => ({
+    y: clg.wins,
+    label: clg.clg.clg_name,
+  }));
+
+  const options = {
+    animationEnabled: true,
+    exportEnabled: true,
+    theme: "dark2",
+    title: {
+      text: "Wins Distribution by College"
+    },
+  
+    data: [{
+      type: "pie",
+      indexLabel: "{label}: {y} points",
+      startAngle: -90,
+      dataPoints: pieChartData
+    }]
+  };
 
   return (
     <Layout>
@@ -45,6 +68,11 @@ const Leaderboard = () => {
             ))}
           </tbody>
         </table>
+      </div>
+
+      <div className="container mt-4">
+        <h1 className="mb-4">LeaderBoard Representation as Pie Chart</h1>
+        <CanvasJSChart options={options} />
       </div>
     </Layout>
   );

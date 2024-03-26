@@ -66,7 +66,7 @@ export default function Login() {
         window.alert("Login Successful!");
         // console.log(data)
         localStorage.setItem("authToken", data.authToken);
-        navigate("/");
+        navigate("/Home");
       } else if (res.status === 201) {
         window.alert("Admin login Successful!");
         localStorage.setItem("adminToken", data.adminToken);
