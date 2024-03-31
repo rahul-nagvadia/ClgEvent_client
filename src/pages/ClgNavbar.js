@@ -1,17 +1,16 @@
 import { jwtDecode } from "jwt-decode";
 import React, { useEffect, useState } from "react";
-
 import { Link, NavLink, useNavigate, useParams } from "react-router-dom";
 import "../styles/ClgNavbar.css";
-
-const OrganizerNavbar = ({ orgClgId, setEnable }) => {
+import logo from "../static/newlogo.png";
+const OrganizerNavbar = ({ orgClgId }) => {
   const navigate = useNavigate();
   const eventId = useParams();
   const [isOrgClg, setOrgClg] = useState(false);
-
   const [isLogin, setIsLogin] = useState(false);
   const [id, setId] = useState();
   const [uname, setUname] = useState();
+  const [enable, setEnable] = useState(false); // Define enable state variable
 
   useEffect(() => {
     const authToken = localStorage.getItem("authToken");
@@ -22,16 +21,16 @@ const OrganizerNavbar = ({ orgClgId, setEnable }) => {
         const decodedToken = jwtDecode(authToken);
         setId(decodedToken.user.id);
         setUname(decodedToken.user.username);
-        // console.log(id)
-        if (id == orgClgId) {
+
+        if (id === orgClgId) {
           setOrgClg(true);
-          setEnable(true)
+          setEnable(true); // Set enable state to true
         }
       } catch (error) {
         console.error("Error decoding token:", error);
       }
     }
-  });
+  }, [id, orgClgId]); // Add id and orgClgId to the dependency array
 
   const handleLogout = () => {
     localStorage.removeItem("authToken");
@@ -42,7 +41,7 @@ const OrganizerNavbar = ({ orgClgId, setEnable }) => {
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark text-light sticky-top">
       <div className="container mx-1">
         <Link to="/Home" className="navbar-brand">
-          Your Logo
+          <img src={logo} alt="Your Logo" className="logo-image" />
         </Link>
         <NavLink
           className="navbar-toggler"
@@ -60,8 +59,9 @@ const OrganizerNavbar = ({ orgClgId, setEnable }) => {
             {isLogin && isOrgClg && (
               <li className="nav-item">
                 <NavLink
-                  className="btn btn-link nav-link" activeClassName='active'
-                  to='/Home/add-event'
+                  className="btn btn-link nav-link"
+                  activeclassname={enable ? "active" : ""}
+                  to="/Home/add-event"
                 >
                   Add Event
                 </NavLink>
@@ -70,29 +70,42 @@ const OrganizerNavbar = ({ orgClgId, setEnable }) => {
             {isLogin && isOrgClg && (
               <li className="nav-item">
                 <NavLink
-                  className="btn btn-link nav-link" activeClassName='active'
-                  to='/Home/schedule'
+                  className="btn btn-link nav-link"
+                  activeclassname="active"
+                  to="/Home/schedule"
                 >
                   Schedule Match
                 </NavLink>
               </li>
             )}
 
+            {isLogin && isOrgClg && (
+              <li className="nav-item">
+                <NavLink
+                  className="btn btn-link nav-link"
+                  activeclassname="active"
+                  to="/Home/schedule2"
+                >
+                  Schedule Match New
+                </NavLink>
+              </li>
+            )}
 
             <li className="nav-item">
               <NavLink
-                className="btn btn-link nav-link" activeClassName='active'
-                to='/Home/leaderboard'
+                className="btn btn-link nav-link"
+                activeclassname="active"
+                to="/Home/leaderboard"
               >
                 Leaderboard
               </NavLink>
             </li>
 
-
             <li className="nav-item">
               <NavLink
-                className="btn btn-link nav-link" activeClassName='active'
-                to='/Home/matches'
+                className="btn btn-link nav-link"
+                activeclassname="active"
+                to="/Home/matches"
               >
                 Matches
               </NavLink>
@@ -100,15 +113,20 @@ const OrganizerNavbar = ({ orgClgId, setEnable }) => {
 
             <li className="nav-item">
               <NavLink
-                className="btn btn-link nav-link" activeClassName='active'
-                to='/Home/all-events'
+                className="btn btn-link nav-link"
+                activeclassname="active"
+                to="/Home/all-events"
               >
                 All Events
               </NavLink>
             </li>
             {!isLogin ? (
               <li className="nav-item">
-                <NavLink className="btn btn-link nav-link" activeClassName='active' to='/login'>
+                <NavLink
+                  className="btn btn-link nav-link"
+                  activeclassname="active"
+                  to="/login"
+                >
                   Login
                 </NavLink>
               </li>
@@ -116,8 +134,9 @@ const OrganizerNavbar = ({ orgClgId, setEnable }) => {
               <>
                 <li className="nav-item">
                   <NavLink
-                    className="btn btn-link nav-link" activeClassName='active'
-                    to='/Home/userProfile'
+                    className="btn btn-link nav-link"
+                    activeclassname="active"
+                    to="/Home/userProfile"
                   >
                     Update Profile
                   </NavLink>
@@ -130,10 +149,16 @@ const OrganizerNavbar = ({ orgClgId, setEnable }) => {
                     Logout
                   </button>
                 </li>
-                <li className="nav-item mx-2 mt-1" style={{ color: "lightsalmon", fontFamily: "cursive", fontSize: "20px" }}>
+                <li
+                  className="nav-item mx-2 mt-1"
+                  style={{
+                    color: "lightsalmon",
+                    fontFamily: "cursive",
+                    fontSize: "20px",
+                  }}
+                >
                   <span>{uname}</span>
                 </li>
-
               </>
             )}
           </ul>

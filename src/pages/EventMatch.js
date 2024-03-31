@@ -21,7 +21,7 @@ export default function EventMatch() {
     // State for each match
     // const [btnDisable, setBtnDisable] = useState(false);
     // const [currentIndex, setCurrentIndex] = useState(null);
-    const [isEnable, setIsEnable] = useState(false);
+    const [isEnable, setIsEnable] = useState(true);
 
     useEffect(() => {
         const fetchEvent = async () => {
@@ -59,15 +59,24 @@ export default function EventMatch() {
                 setMatches(data.matches);
                 console.log(data.matches)
                 // Initialize state for each match
-                const initialMatchStates = data.matches.map((match) => (
-                    {
+                const initialMatchStates = data.matches.map((match) => {
+                    const state = {
                         winnerUpdated: (match.winner ? true : false),
                         isSure1: false,
                         isSure2: false,
-                        clg1: match.clg1._id,
-                        clg2: match.clg2._id,
+                    };
+                
+                    if (match.clg1) {
+                        state.clg1 = match.clg1._id;
                     }
-                ));
+                
+                    if (match.clg2) {
+                        state.clg2 = match.clg2._id;
+                    }
+                
+                    return state;
+                });
+                
 
                 setMatchStates(initialMatchStates);
                 console.log(matchStates)
@@ -92,6 +101,7 @@ export default function EventMatch() {
             const data = await response.json();
             if (data.success) {
                 alert("Winner Saved Successfully...")
+                window.location.reload();
             } else {
                 alert("No Saved!!!");
             }
@@ -116,18 +126,16 @@ export default function EventMatch() {
     const YesClicked = (e, index) => {
         const matchState = matchStates[index];
         const name = e.target.name;
-
+    
         if (name === "clg1") {
             winnerSave(index, matchState.clg1);
-            updateMatchState(index, { isSure1: false });
+            updateMatchState(index, { isSure1: false, winnerUpdated: true });
         } else if (name === "clg2") {
             winnerSave(index, matchState.clg2);
-            updateMatchState(index, { isSure2: false });
+            updateMatchState(index, { isSure2: false, winnerUpdated: true });
         }
-        window.location.reload();
-
-        // setMatchStates(updateMatchState(index, { isSure1: false, isSure2: false }));
     };
+    
 
     function formatDate(inputDate) {
         const date = new Date(inputDate);
@@ -177,7 +185,7 @@ export default function EventMatch() {
                             Loading...
                         </h1>
                         :
-                        matches.map((match, index) => [
+                        matches.map((match, index) => (
                             <div key={index} className='container mt-5'>
                                 <div className="card">
                                     <div className="card-header">
@@ -238,32 +246,41 @@ export default function EventMatch() {
                                             </div>
 
                                             <div className='col-sm text-right'>
-                                                <h2 className=''>{match.clg2.clg_name}</h2>
-                                                {
-                                                    isEnable && !matchStates[index].winnerUpdated && (
-                                                        <div>
+                                                {match.clg2 ? (
+                                                    <>
+                                                        <h2 className=''>{match.clg2.clg_name}</h2>
+                                                        {
+                                                            isEnable && !matchStates[index].winnerUpdated && (
+                                                                <div>
 
-                                                            <button className='btn btn-primary' name='clg2' onClick={(e) => winnerClick(e, index)}>winner</button>
-                                                            {
-                                                                matchStates[index].isSure2 && (
-                                                                    <div className='mt-3'>
-                                                                        <p><strong>Are You Sure, {match.clg2.clg_name} is Winner ? </strong></p>
+                                                                    <button className='btn btn-primary' name='clg2' onClick={(e) => winnerClick(e, index)}>winner</button>
+                                                                    {
+                                                                        matchStates[index].isSure2 && (
+                                                                            <div className='mt-3'>
+                                                                                <p><strong>Are You Sure, {match.clg2.clg_name} is Winner ? </strong></p>
 
-                                                                        <button
-                                                                            className='btn btn-success mx-1'
-                                                                            name='clg2'
-                                                                            onClick={(e) => YesClicked(e, index)}
-                                                                        >
-                                                                            Yes
-                                                                        </button>
-                                                                        <button name='clg2' onClick={(e) => NoClicked(e, index)} className='btn btn-danger mx-1'>No</button>
+                                                                                <button
+                                                                                    className='btn btn-success mx-1'
+                                                                                    name='clg2'
+                                                                                    onClick={(e) => YesClicked(e, index)}
+                                                                                >
+                                                                                    Yes
+                                                                                </button>
+                                                                                <button name='clg2' onClick={(e) => NoClicked(e, index)} className='btn btn-danger mx-1'>No</button>
 
-                                                                    </div>
-                                                                )
-                                                            }
+                                                                            </div>
+                                                                        )
+                                                                    }
+                                                                </div>
+                                                            )
+                                                        }
+                                                    </>
+                                                ) : (
+                                                        <div className="text-center">
+                                                            <h2>{match.clg1.clg_name} is promoted</h2>
                                                         </div>
-                                                    )
-                                                }
+                                                    )}
+
                                             </div>
 
                                         </div>
@@ -279,7 +296,7 @@ export default function EventMatch() {
                                 </div>
 
                             </div>
-                        ])
+                        ))
                 }
             </div>
         </Layout>

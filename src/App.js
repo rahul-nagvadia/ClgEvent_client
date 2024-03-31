@@ -21,6 +21,9 @@ import Schedule from "./pages/Schedule";
 import AllMatches from "./pages/AllMatches";
 import EventMatch from "./pages/EventMatch";
 import Leaderboard from "./pages/Leaderboard";
+import CollegeRecords from "./pages/CollegeRecords";
+import ClgGames from "./pages/ClgGames";
+import RandomSchedule from "./pages/RandomSchedule";
 
 const router = createBrowserRouter([
   {
@@ -37,8 +40,6 @@ const router = createBrowserRouter([
   },
   {
     path: '/Home',
-
-    
     children: [
       {index: true, element: <Home />},
       {
@@ -89,8 +90,26 @@ const router = createBrowserRouter([
         element: <Schedule/>
       },
       {
+        path: 'schedule2',
+        element: <RandomSchedule></RandomSchedule>
+      },
+      {
         path : 'leaderboard',
         element: <Leaderboard/>
+      },
+      {
+        path : 'records/:collegeId',
+        children : [
+          {
+            index : true,
+            element : <CollegeRecords/>
+          },
+          {
+            path : 'clgstats/:clickedLabel',
+            element : <ClgGames/>
+          }
+        ]
+        
       },
       {
         path: 'matches',
