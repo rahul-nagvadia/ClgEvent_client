@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
+import "../styles/eventhist.css"; // Import your CSS file
 
 export default function EventsHist() {
-  const [eventHist, seteventHist] = useState([]);
+  const [eventHist, setEventHist] = useState([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+
   useEffect(() => {
     const fetchEventHistDetails = async () => {
       try {
@@ -15,10 +18,9 @@ export default function EventsHist() {
         const data = await response.json();
 
         if (response.status === 200) {
-          // Logging the array
-          seteventHist(data); // Set the array directly
+          setEventHist(data);
         } else if (response.status === 100) {
-          seteventHist([]);
+          setEventHist([]);
         }
       } catch (error) {
         console.error("Error fetching event details:", error.message);
@@ -28,19 +30,50 @@ export default function EventsHist() {
     fetchEventHistDetails();
   }, []);
 
+  const handleNext = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === eventHist.length - 1 ? 0 : prevIndex + 1
+    );
+  };
+
+  const handlePrev = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === 0 ? eventHist.length - 1 : prevIndex - 1
+    );
+  };
+
+
+
   return (
-    <div>
-      {eventHist ? (
-        <div>
-          {eventHist.map((evnt) => (
-            <h1 key={evnt._id}>{evnt.year}</h1>
-          ))}
-        </div>
-      ) : (
-        <div>
-          <h1>Hello</h1>
-        </div>
-      )}
+    <div className="event-container">
+      <div className="event-card">
+        <h1 className="event-year">
+          Year:{" "}
+          <div className="yearval">{eventHist[currentIndex]?.year}</div>
+        </h1>
+        <p className="college-name">
+          Organizing College:{" "}
+          <div className="orgval">
+            {eventHist[currentIndex]?.clg?.clg_name}
+          </div>
+        </p>
+        <p className="winner-college">
+          Winner College:{" "}
+          <div className="winval">
+            {eventHist[currentIndex]?.winner
+              ? eventHist[currentIndex]?.winner?.clg_name
+              : "N/A"}
+          </div>
+        </p>
+      </div>
+      <div className="navigation-buttons">
+        <button className="prev-btn" onClick={handlePrev}>
+          <i className="fas fa-arrow-left"></i>
+        </button>
+        <button className="next-btn" onClick={handleNext}>
+          <i className="fas fa-arrow-right"></i>
+        </button>
+      </div>
     </div>
   );
 }
