@@ -1,14 +1,11 @@
 import React, { useEffect, useState, useRef } from 'react';
 import Layout from './Layout';
 import CanvasJSReact from '@canvasjs/react-charts';
-import { Bar } from 'react-chartjs-2';
 
 const { CanvasJSChart } = CanvasJSReact;
 
 const Leaderboard = () => {
   const [leaderboard, setLeaderboard] = useState([]);
-  const chartRef = useRef(null);
-  const [winnerDeclared, setWinnerDeclared] = useState(false);
 
   useEffect(() => {
     const fetchLeaderboard = async () => {
@@ -24,6 +21,23 @@ const Leaderboard = () => {
     };
 
     fetchLeaderboard();
+  }, []);
+
+  useEffect(() => {
+    const fetchWinner = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/clg/getWinner', {
+          method: 'GET',
+        });
+        const data = await response.json();
+        console.log(data)
+        setWinner(data.winner.clg_name);
+      } catch (error) {
+        console.error('Error fetching Winner:', error.message);
+      }
+    };
+
+    fetchWinner();
   }, []);
 
   const pieChartData = leaderboard.map((clg) => ({
@@ -108,10 +122,32 @@ const Leaderboard = () => {
 
   
 
+
+  const setWinnerCollege = async () => {
+    // console.log(leaderboard);
+    const x = leaderboard[0].clg.clg_name;
+    setMostWinsCollegeId(x);
+    console.log(leaderboard[0].clg.clg_name);
+    console.log(mostWinsCollegeId)
+    const response = await fetch(
+      `http://localhost:5000/clg/declarewinner/${mostWinsCollegeId}`, {
+          method: 'POST',
+    });
+    let data = await response.json();
+    if(data.success){
+      setWinner(leaderboard[0].clg.clg_name);
+      setShowWinnerAnimation(true);
+    }
+    else{
+      window.alert("Winner not Saved");
+    }
+    
+  };
+  
+
   return (
     <Layout>
-
-      <div className="container mt-4" >
+      <div className="container mt-4">
         <h1 className="mb-4">Leaderboard</h1>
         <table className="table">
           <thead>
@@ -143,15 +179,6 @@ const Leaderboard = () => {
         <h1 className="mb-4">LeaderBoard Representation as Pie Chart</h1>
         <CanvasJSChart options={options} ref={chartRef} />
       </div>
-
-      <button
-        className="btn btn-primary"
-        onClick={handleDeclareWinner}
-        disabled={winnerDeclared}
-      >
-        Declare Winner
-      </button>
-
     </Layout>
   );
 };

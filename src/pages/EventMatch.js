@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Layout from './Layout';
 
+
 export default function EventMatch() {
     const { eventID } = useParams();
     const [event, setEvent] = useState({});
@@ -10,6 +11,7 @@ export default function EventMatch() {
     const [matchStates, setMatchStates] = useState([]);
     const [isEnable, setIsEnable] = useState(false);
 
+
     useEffect(() => {
         const fetchEvent = async () => {
             try {
@@ -17,9 +19,11 @@ export default function EventMatch() {
                     method: 'POST',
                 });
 
+
                 if (!response.ok) {
                     throw new Error('Failed to fetch event');
                 }
+
 
                 const data = await response.json();
                 setEvent(data);
@@ -28,8 +32,10 @@ export default function EventMatch() {
             }
         };
 
+
         fetchEvent();
     }, []);
+
 
     useEffect(() => {
         const fetchMatches = async () => {
@@ -38,12 +44,15 @@ export default function EventMatch() {
                     method: 'POST',
                 });
 
+
                 if (!response.ok) {
                     throw new Error('Failed to fetch matches');
                 }
 
+
                 const data = await response.json();
                 setMatches(data.matches);
+
 
                 // Initialize state for each match
                 const initialMatchStates = data.matches.map(() => ({
@@ -60,8 +69,10 @@ export default function EventMatch() {
             }
         };
 
+
         fetchMatches();
     }, []);
+
 
     const winnerSave = async (index, clg) => {
         try {
@@ -72,6 +83,7 @@ export default function EventMatch() {
                 },
                 body: JSON.stringify({ clg: clg })
             });
+
 
             const data = await response.json();
             if (data.success) {
@@ -84,6 +96,7 @@ export default function EventMatch() {
         }
     }
 
+
     const winnerClick = (e, index) => {
         let matchState = matchStates[index];
         if (e.target.name === "clg1") {
@@ -93,9 +106,11 @@ export default function EventMatch() {
         }
     };
 
+
     const YesClicked = (e, index) => {
         const matchState = matchStates[index];
         const name = e.target.name;
+
 
         if (name === "clg1") {
             winnerSave(index, matchState.clg1);
@@ -107,6 +122,7 @@ export default function EventMatch() {
         window.location.reload();
     };
 
+
     const formatDate = (inputDate) => {
         const date = new Date(inputDate);
         const day = date.getDate();
@@ -114,6 +130,7 @@ export default function EventMatch() {
         const year = date.getFullYear();
         return `${day}-${month}-${year}`;
     }
+
 
     const NoClicked = (e, index) => {
         const name = e.target.name;
@@ -124,6 +141,7 @@ export default function EventMatch() {
         }
     }
 
+
     const updateMatchState = (index, newState) => {
         setMatchStates(prevMatchStates => {
             return prevMatchStates.map((state, i) =>
@@ -132,18 +150,23 @@ export default function EventMatch() {
         });
     };
 
+
     const handleDateClick = (date) => {
         setSelectedDate(date);
     };
+
 
     const handleScroll = (e) => {
         const element = e.target;
         console.log(element.scrollTop);
     };
 
+
     const filteredMatches = selectedDate ? matches.filter(match => formatDate(match.match_date) === selectedDate) : matches;
 
+
     const dates = [...new Set(matches.map(match => formatDate(match.match_date)))];
+
 
     const dateButtonStyle = {
         backgroundColor: 'lightblue',
@@ -154,9 +177,11 @@ export default function EventMatch() {
         width: '150px', // Adjust according to your preference
     };
 
+
     const matchCardStyle = {
         marginBottom: '20px', // Adjust spacing between cards
     };
+
 
     return (
         <Layout fnSetEnable={setIsEnable}>
@@ -247,6 +272,7 @@ export default function EventMatch() {
                                                     )
                                                 }
 
+
                                             </div>
                                         </div>
                                     </div>
@@ -259,4 +285,3 @@ export default function EventMatch() {
         </Layout>
     );
 }
-
