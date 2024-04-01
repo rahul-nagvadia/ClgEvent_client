@@ -121,6 +121,8 @@ export default function RandomSchedule() {
 
       const matchesToSchedule = Math.floor(participatingCount / 2);
       const shuffledColleges = shuffleArray(participatingColleges);
+
+      if(participatingCount % 2 !== 0 ){
       const oddTeam =
         participatingCount % 2 !== 0 ? shuffledColleges.pop() : null;
 
@@ -149,6 +151,8 @@ export default function RandomSchedule() {
       if (oddTeam) {
         message = `Team ${oddTeam.clg_name} has been promoted!`;
       }
+      setPromotedTeamMessage(message);
+    }
       const scheduledMatches = [];
       for (let i = 0; i < matchesToSchedule; i++) {
         const match = {
@@ -178,7 +182,8 @@ export default function RandomSchedule() {
       }
       setShowColleges(false);
       setScheduledMatches(scheduledMatches);
-      setPromotedTeamMessage(message);
+      
+      
     } catch (error) {
       console.error("Error scheduling matches:", error.message);
     }
