@@ -66,36 +66,51 @@ const AddEventForm = () => {
         }
     };
 
-    const currentDate = new Date().toISOString().split('T')[0]; 
+    const currentDate = new Date().toISOString().split('T')[0];
 
     return (
         <Layout>
-            <div className="add-event-container">
-                <h2 className="add-event-heading">Add Event</h2>
-                <form onSubmit={handleSubmit} className="add-event-form">
-                    <label>Event Name:</label>
-                    <input type="text" name="event_name" value={eventData.event_name} onChange={handleChange} required />
-
-                    <label>Number of Players:</label>
-                    <input type="number" name="players" value={eventData.players} onChange={handleChange} required />
-
-                    <label>Venue:</label>
-                    <input type="text" name="venue" value={eventData.venue} onChange={handleChange} required />
-
-                    <label>Event Description:</label>
-                    <textarea name="event_desc" value={eventData.event_desc} onChange={handleChange} required />
-
-                    <label>Event Date:</label>
-                    <input type="date" name="event_date" value={eventData.event_date} onChange={handleChange} min={currentDate} required />
-
-                    <label>Registration Date:</label>
-                    <input type="date" name="reg_date" value={eventData.reg_date} onChange={handleChange} min={currentDate} required />
-
-                    <label>Image URL:</label>
-                    <input type="text" name="img_url" value={eventData.img_url} onChange={handleChange} />
-
-                    <button type="submit" className="add-event-btn">Add Event</button>
-                </form>
+            <div className="ak-bg">
+                <div className="add-event-container">
+                    <h2 className="add-event-heading">Add Event</h2>
+                    <form onSubmit={handleSubmit} className="add-event-form">
+                        <div className="form-group">
+                            <div className="split-form">
+                                <div className="split-form-group">
+                                    <label>Event Name:</label>
+                                    <input type="text" name="event_name" value={eventData.event_name} onChange={handleChange} required />
+                                </div>
+                                <div className="split-form-group">
+                                    <label>Number of Players:</label>
+                                    <input type="number" name="players" value={eventData.players} onChange={handleChange} required />
+                                </div>
+                                <div className="split-form-group">
+                                    <label>Venue:</label>
+                                    <input type="text" name="venue" value={eventData.venue} onChange={handleChange} required />
+                                </div>
+                                <div className="split-form-group">
+                                    <label>Event Date:</label>
+                                    <input type="date" name="event_date" value={eventData.event_date} onChange={handleChange} required />
+                                </div>
+                            </div>
+                            <div className="split-form">
+                                <div className="split-form-group">
+                                    <label>Registration Date:</label>
+                                    <input type="date" name="reg_date" value={eventData.reg_date} onChange={handleChange} required />
+                                </div>
+                                <div className="split-form-group">
+                                    <label>Image URL:</label>
+                                    <input type="text" name="img_url" value={eventData.img_url} onChange={handleChange} />
+                                </div>
+                                <div className="split-form-group full-width">
+                                    <label>Event Description:</label>
+                                    <textarea name="event_desc" value={eventData.event_desc} onChange={handleChange} required />
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" className="add-event-btn">Add Event</button>
+                    </form>
+                </div>
             </div>
         </Layout>
     );

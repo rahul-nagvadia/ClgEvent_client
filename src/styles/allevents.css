@@ -4,6 +4,11 @@
     padding: 20px;
   }
   
+  .bg{
+    background-color: aliceblue;
+    height: 100vh;
+  }
+
   .all-events-heading {
     font-size: 24px;
     margin-bottom: 20px;

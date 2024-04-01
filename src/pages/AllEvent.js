@@ -28,16 +28,18 @@ const AllEvent = () => {
 
   return (
     <Layout>
-      <div className="all-events-container">
-        <h2 className="all-events-heading">All Events</h2>
-        <div className="event-grid">
-          {events.map((event) => (
-            <Link key={event._id} to={`/Home/all-events/${event._id}`} className="event-card-link">
-              <div className="event-card" style={{ backgroundImage: `url(${event.img_url})` }}>
-                <h2>{event.event_name}</h2>
-              </div>
-            </Link>
-          ))}
+      <div className='bg'>
+        <div className="all-events-container">
+          <h2 className="all-events-heading">All Events</h2>
+          <div className="event-grid">
+            {events.map((event) => (
+              <Link key={event._id} to={`/Home/all-events/${event._id}`} className="event-card-link">
+                <div className="event-card" style={{ backgroundImage: `url(${event.img_url})` }}>
+                  <h2>{event.event_name}</h2>
+                </div>
+              </Link>
+            ))}
+          </div>
         </div>
       </div>
     </Layout>

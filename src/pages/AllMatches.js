@@ -26,7 +26,7 @@ export default function Matches() {
   }, []);
   return (
     <Layout>
-      <div className="all-events-container">
+      <div className="all-events-container" style={{backgroundColor: 'aliceblue',height:'100vh'}}>
         <h2 className="all-events-heading">All Events</h2>
         <div className="event-grid">
           {events.map((event) => (
