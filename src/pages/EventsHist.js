@@ -46,7 +46,7 @@ export default function EventsHist() {
 
   return (
     <div className="event-container">
-      <div className="event-card">
+      <div className="event-card1">
         <h1 className="event-year">
           Year:{" "}
           <div className="yearval">{eventHist[currentIndex]?.year}</div>

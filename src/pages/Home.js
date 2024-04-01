@@ -237,7 +237,7 @@ const CollegeList = () => {
               <i className="fas fa-envelope"></i>nagvadiarahul02@gmial.com
             </li>
             <br></br>
-            <li>Parkeh Akshar</li>
+            <li>Akshar Parkeh</li>
             <li>
               <i className="fas fa-phone"></i>+91 90990 31199
             </li>
@@ -250,7 +250,7 @@ const CollegeList = () => {
               <i className="fas fa-phone"></i>+91 96383 92046
             </li>
             <li>
-              <i className="fas fa-envelope"></i>aksharparekh1199@gmail.com
+              <i className="fas fa-envelope"></i>harshgodkar14@gmail.com
             </li>
           </ul>
         </div>
