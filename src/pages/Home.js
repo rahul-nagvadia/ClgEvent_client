@@ -91,7 +91,7 @@ const CollegeList = () => {
 
   useEffect(() => {
     const currentYear = new Date().getFullYear();
-    const difference = currentYear - 2023 + 1;
+    const difference = currentYear - 2022 + 1;
     setYearDifference(difference);
 
     const suffix = getYearSuffix(difference);
