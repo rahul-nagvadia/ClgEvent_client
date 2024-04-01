@@ -26,10 +26,11 @@ const AllEvent = () => {
     fetchEvents();
   }, []);
 
+
   return (
     <Layout>
-      <div className='bg'>
-        <div className="all-events-container">
+      {/* <div className='bg'> */}
+        <div className="all-events">
           <h2 className="all-events-heading">All Events</h2>
           <div className="event-grid">
             {events.map((event) => (
@@ -41,7 +42,7 @@ const AllEvent = () => {
             ))}
           </div>
         </div>
-      </div>
+      {/* </div> */}
     </Layout>
   );
 };

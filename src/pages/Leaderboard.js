@@ -8,6 +8,7 @@ const { CanvasJSChart } = CanvasJSReact;
 const Leaderboard = () => {
   const [leaderboard, setLeaderboard] = useState([]);
   const chartRef = useRef(null);
+  const [winnerDeclared, setWinnerDeclared] = useState(false);
 
   useEffect(() => {
     const fetchLeaderboard = async () => {
@@ -88,14 +89,31 @@ const Leaderboard = () => {
   //   ],
   // };
 
+  const handleDeclareWinner = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/admin/declareWinner', {
+        method: 'POST',
+      });
+      const data = await response.json();
+      if (data.success) {
+        setWinnerDeclared(true);
+        console.log('Winner declared:', data.winner);
+      } else {
+        console.error('Failed to declare winner');
+      }
+    } catch (error) {
+      console.error('Error declaring winner:', error);
+    }
+  };
 
+  
 
   return (
     <Layout>
 
       <div className="container mt-4" >
         <h1 className="mb-4">Leaderboard</h1>
-        {/* <table className="table">
+        <table className="table">
           <thead>
             <tr>
               <th scope="col">College</th>
@@ -114,7 +132,7 @@ const Leaderboard = () => {
               </tr>
             ))}
           </tbody>
-        </table> */}
+        </table>
       </div>
 
       {/* <div style={{ height: '500px' }}>
@@ -125,6 +143,14 @@ const Leaderboard = () => {
         <h1 className="mb-4">LeaderBoard Representation as Pie Chart</h1>
         <CanvasJSChart options={options} ref={chartRef} />
       </div>
+
+      <button
+        className="btn btn-primary"
+        onClick={handleDeclareWinner}
+        disabled={winnerDeclared}
+      >
+        Declare Winner
+      </button>
 
     </Layout>
   );
