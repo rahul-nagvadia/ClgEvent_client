@@ -1,5 +1,7 @@
 import React from 'react'
 import { Link, NavLink, useNavigate } from "react-router-dom";
+import logo from "../static/newlogo.png";
+
 export default function AdminNavbar() {
   const navigate = useNavigate();
 
@@ -16,7 +18,9 @@ export default function AdminNavbar() {
     <div>
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
         <div className="container mx-1">
-          <Link className="navbar-brand" to="/adminhome">Your Logo</Link>
+        <Link to="/Home" className="navbar-brand">
+          <img src={logo} alt="Your Logo" className="logo-image" />
+        </Link>
           
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav ml-auto">

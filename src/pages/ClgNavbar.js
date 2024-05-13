@@ -3,14 +3,14 @@ import React, { useEffect, useState } from "react";
 import { Link, NavLink, useNavigate, useParams } from "react-router-dom";
 import "../styles/ClgNavbar.css";
 import logo from "../static/newlogo.png";
-const OrganizerNavbar = ({ orgClgId }) => {
+const OrganizerNavbar = ({ orgClgId, setEnable }) => {
   const navigate = useNavigate();
   const eventId = useParams();
   const [isOrgClg, setOrgClg] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
   const [id, setId] = useState();
   const [uname, setUname] = useState();
-  const [enable, setEnable] = useState(false); // Define enable state variable
+  const [enable, setIsEnable] = useState(false); // Define enable state variable
 
   useEffect(() => {
     const authToken = localStorage.getItem("authToken");
@@ -24,7 +24,8 @@ const OrganizerNavbar = ({ orgClgId }) => {
 
         if (id === orgClgId) {
           setOrgClg(true);
-          setEnable(true); // Set enable state to true
+          setEnable(true);
+          setIsEnable(true) // Set enable state to true
         }
       } catch (error) {
         console.error("Error decoding token:", error);
@@ -86,7 +87,7 @@ const OrganizerNavbar = ({ orgClgId }) => {
                   activeclassname="active"
                   to="/Home/schedule2"
                 >
-                  Schedule Match New
+                  Random Scheduling
                 </NavLink>
               </li>
             )}

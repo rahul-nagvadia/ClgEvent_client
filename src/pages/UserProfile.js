@@ -148,6 +148,7 @@ const UserProfile = () => {
                             {sentOTP && (
                                 <div className="otp-verification">
                                     <input type="text" placeholder="Enter OTP" className="form-control mt-3" value={userOTP} onChange={handleOTPChange} />
+                                    <br></br>
                                     <button type="button" className="btn btn-success mt-3" onClick={handleVerifyOTP}>Verify</button>
                                 </div>
                             )}

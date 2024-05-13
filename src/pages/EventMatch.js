@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { jwtDecode } from "jwt-decode";
 import Layout from './Layout';
 
 
@@ -9,7 +10,10 @@ export default function EventMatch() {
     const [matches, setMatches] = useState([]);
     const [selectedDate, setSelectedDate] = useState(null);
     const [matchStates, setMatchStates] = useState([]);
+    // const [filterstate, setfilterMatchStates] = useState([]);
+    const [len, setLen] = useState(0);
     const [isEnable, setIsEnable] = useState(false);
+
 
 
     useEffect(() => {
@@ -51,16 +55,19 @@ export default function EventMatch() {
 
 
                 const data = await response.json();
+                console.log(data.matches);
+                // console.log(data.matches[3].winner ? true : false);
                 setMatches(data.matches);
-
+                setLen(data.matches.length);
+                console.log(isEnable)
 
                 // Initialize state for each match
-                const initialMatchStates = data.matches.map(() => ({
-                    winnerUpdated: false,
+                const initialMatchStates = data.matches.map((m) => ({
+                    winnerUpdated: (m.winner ? true : false),
                     isSure1: false,
                     isSure2: false,
-                    clg1: '',
-                    clg2: '',
+                    clg1: m.clg1._id,
+                    clg2: (m.clg2 ? m.clg2._id : ''),
                     btnDisable: false,
                 }));
                 setMatchStates(initialMatchStates);
@@ -86,8 +93,10 @@ export default function EventMatch() {
 
 
             const data = await response.json();
+            console.log(data)
             if (data.success) {
-                alert("Winner Saved Successfully...")
+
+                window.location.reload();
             } else {
                 alert("No Saved!!!");
             }
@@ -110,6 +119,7 @@ export default function EventMatch() {
     const YesClicked = (e, index) => {
         const matchState = matchStates[index];
         const name = e.target.name;
+        console.log(matchState)
 
 
         if (name === "clg1") {
@@ -119,7 +129,11 @@ export default function EventMatch() {
             winnerSave(index, matchState.clg2);
             updateMatchState(index, { isSure2: false });
         }
-        window.location.reload();
+        else {
+            window.alert("Ak");
+        }
+        // window.location.reload();
+
     };
 
 
@@ -153,6 +167,17 @@ export default function EventMatch() {
 
     const handleDateClick = (date) => {
         setSelectedDate(date);
+        console.log(isEnable);
+
+        // const initialMatchStates2 = filteredMatches.map((m) => ({
+        //     winnerUpdated: (m.winner ? true : false),
+        //     isSure1: false,
+        //     isSure2: false,
+        //     clg1: m.clg1._id,
+        //     clg2: (m.clg2 ? m.clg2._id : ''),
+        //     btnDisable: false,
+        // }));
+        // setfilterMatchStates(initialMatchStates2);
     };
 
 
@@ -160,10 +185,6 @@ export default function EventMatch() {
         const element = e.target;
         console.log(element.scrollTop);
     };
-
-
-    const filteredMatches = selectedDate ? matches.filter(match => formatDate(match.match_date) === selectedDate) : matches;
-
 
     const dates = [...new Set(matches.map(match => formatDate(match.match_date)))];
 
@@ -182,9 +203,12 @@ export default function EventMatch() {
         marginBottom: '20px', // Adjust spacing between cards
     };
 
+    let fnSetEnable = (data) => {
+        setIsEnable(data);
+    }
 
     return (
-        <Layout fnSetEnable={setIsEnable}>
+        <Layout fnSetEnable={fnSetEnable}>
             <div className='container mt-3'>
                 <div className="row">
                     <div className="col-md-3" style={{ overflowY: 'scroll', maxHeight: '600px' }} onScroll={handleScroll}>
@@ -196,86 +220,88 @@ export default function EventMatch() {
                     <div className="col-md-9">
                         <h1>{event.event_name}</h1>
                         <div className='container mt-5'>
-                            {filteredMatches.length === 0 ? (
+                            {matches.length === 0 ? (
                                 <h2>No matches found for selected date.</h2>
                             ) : (
-                                filteredMatches.map((match, index) => (
-                                    <div key={index} className='match' style={matchCardStyle}>
-                                        <div className="card">
-                                            <div className="card-header">
-                                                <div className='row'>
-                                                    <div className='col-sm' style={{ color: "grey" }}>
-                                                        <h5>Round - {match.round}</h5>
-                                                    </div>
-                                                    <div className='col-sm' style={{ color: "grey" }}>
-                                                        <h5>Timing : {match.time}</h5>
-                                                    </div>
-                                                    <div className='col-sm' style={{ color: "grey" }}>
-                                                        <h5>Match Date : {formatDate(match.match_date)}</h5>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="card-body">
-                                                <div className="row">
-                                                    <div className='col-sm text-center' style={{ color: "green" }}>
-                                                        <h5>Match - {index + 1}</h5>
-                                                    </div>
-                                                </div>
-                                                {
-                                                    match.clg2 ? (
-                                                        <>
-                                                            <div className='row'>
-                                                                <div className='col-sm text-left'>
-                                                                    <h2 className=''>{match.clg1.clg_name}</h2>
-                                                                    {isEnable && !matchStates[index].winnerUpdated && (
-                                                                        <div>
-                                                                            <button className='btn btn-primary' name='clg1' onClick={(e) => winnerClick(e, index)}>Winner</button>
-                                                                            {matchStates[index].isSure1 && (
-                                                                                <div className='mt-3'>
-                                                                                    <p><strong>Are You Sure, {match.clg1.clg_name} is Winner ?</strong></p>
-                                                                                    <button className='btn btn-success mx-1' name='clg1' onClick={(e) => YesClicked(e, index)}>Yes</button>
-                                                                                    <button className='btn btn-danger mx-1' name='clg1' onClick={(e) => NoClicked(e, index)}>No</button>
-                                                                                </div>
-                                                                            )}
-                                                                        </div>
-                                                                    )}
-                                                                </div>
-                                                                <div className='col-sm' style={{ color: "grey" }}>
-                                                                    <h5 className='text-center'>V / S</h5>
-                                                                </div>
-                                                                <div className='col-sm text-right'>
-                                                                    <h2 className=''>{match.clg2.clg_name}</h2>
-                                                                    {isEnable && !matchStates[index].winnerUpdated && (
-                                                                        <div>
-                                                                            <button className='btn btn-primary' name='clg2' onClick={(e) => winnerClick(e, index)}>Winner</button>
-                                                                            {matchStates[index].isSure2 && (
-                                                                                <div className='mt-3'>
-                                                                                    <p><strong>Are You Sure, {match.clg2.clg_name} is Winner ?</strong></p>
-                                                                                    <button className='btn btn-success mx-1' name='clg2' onClick={(e) => YesClicked(e, index)}>Yes</button>
-                                                                                    <button className='btn btn-danger mx-1' name='clg2' onClick={(e) => NoClicked(e, index)}>No</button>
-                                                                                </div>
-                                                                            )}
-                                                                        </div>
-                                                                    )}
-                                                                </div>
-                                                            </div>
-                                                            {match.winner && (
-                                                                <div className='text-center'>
-                                                                    <h3><span style={{ color: "darkblue" }}>{match.winner}</span> won the match.</h3>
-                                                                </div>
-                                                            )}
-                                                        </>
-                                                    ) : (
-                                                        <div className="text-center">
-                                                            <h2><span style={{color:'blue'}}>{match.clg1.clg_name}</span> is promoted to next Round.</h2>
+                                matches.map((match, index) => (
+                                    (selectedDate ? (formatDate(match.match_date) === selectedDate) : true) && (
+                                        <div key={index} className='match' style={matchCardStyle}>
+                                            <div className="card">
+                                                <div className="card-header">
+                                                    <div className='row'>
+                                                        <div className='col-sm' style={{ color: "grey" }}>
+                                                            <h5>Round - {match.round}</h5>
                                                         </div>
-                                                    )
-                                                }
+                                                        <div className='col-sm' style={{ color: "grey" }}>
+                                                            <h5>Timing : {match.time}</h5>
+                                                        </div>
+                                                        <div className='col-sm' style={{ color: "grey" }}>
+                                                            <h5>Match Date : {formatDate(match.match_date)}</h5>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="card-body">
+                                                    <div className="row">
+                                                        <div className='col-sm text-center' style={{ color: "green" }}>
+                                                            <h5>Match - {index + 1}</h5>
+                                                        </div>
+                                                    </div>
+                                                    {
+                                                        match.clg2 ? (
+                                                            <>
+                                                                <div className='row'>
+                                                                    <div className='col-sm text-left'>
+                                                                        <h2 className=''>{match.clg1.clg_name}</h2>
+                                                                        {isEnable && !matchStates[index].winnerUpdated && (
+                                                                            <div>
+                                                                                <button className='btn btn-primary' name='clg1' onClick={(e) => winnerClick(e, index)}>Winner</button>
+                                                                                {matchStates[index].isSure1 && (
+                                                                                    <div className='mt-3'>
+                                                                                        <p><strong>Are You Sure, {match.clg1.clg_name} is Winner ?</strong></p>
+                                                                                        <button className='btn btn-success mx-1' name='clg1' onClick={(e) => YesClicked(e, index)}>Yes</button>
+                                                                                        <button className='btn btn-danger mx-1' name='clg1' onClick={(e) => NoClicked(e, index)}>No</button>
+                                                                                    </div>
+                                                                                )}
+                                                                            </div>
+                                                                        )}
+                                                                    </div>
+                                                                    <div className='col-sm' style={{ color: "grey" }}>
+                                                                        <h5 className='text-center'>V / S</h5>
+                                                                    </div>
+                                                                    <div className='col-sm text-right'>
+                                                                        <h2 className=''>{match.clg2.clg_name}</h2>
+                                                                        {isEnable && !matchStates[index].winnerUpdated && (
+                                                                            <div>
+                                                                                <button className='btn btn-primary' name='clg2' onClick={(e) => winnerClick(e, index)}>Winner</button>
+                                                                                {matchStates[index ].isSure2 && (
+                                                                                    <div className='mt-3'>
+                                                                                        <p><strong>Are You Sure, {match.clg2.clg_name} is Winner ?</strong></p>
+                                                                                        <button className='btn btn-success mx-1' name='clg2' onClick={(e) => YesClicked(e, index)}>Yes</button>
+                                                                                        <button className='btn btn-danger mx-1' name='clg2' onClick={(e) => NoClicked(e,index)}>No</button>
+                                                                                    </div>
+                                                                                )}
+                                                                            </div>
+                                                                        )}
+                                                                    </div>
+                                                                </div>
+                                                                {match.winner && (
+                                                                    <div className='text-center'>
+                                                                        <h3><span style={{ color: "darkblue" }}>{match.winner}</span> won the match.</h3>
+                                                                    </div>
+                                                                )}
+                                                            </>
+                                                        ) : (
+                                                            <div className="text-center">
+                                                                <h2><span style={{ color: 'blue' }}>{match.clg1.clg_name}</span> is promoted to next Round.</h2>
+                                                            </div>
+                                                        )
+                                                    }
 
 
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    )
                                 ))
                             )}
                         </div>

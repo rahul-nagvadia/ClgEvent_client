@@ -26,4 +26,43 @@
     font-size: 18px;
     color: #333333; /* Or any other color you like */
   }
+
+  #sdp{
+    margin-left: 40%;
+    margin-bottom: 2%;
+    background-color: aquamarine;
+    color: black;
+    border-color: green;
+    font-weight: bolder;
+  }
   
+
+  /* Add this CSS to your existing stylesheet or create a new one */
+
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 20px;
+  z-index: 1000; /* Ensure pop-up is above other elements */
+}
+
+.popup-inner {
+  text-align: center;
+}
+
+.popup-inner h2 {
+  margin-bottom: 20px;
+}
+
+.btn-group {
+  display: flex;
+  justify-content: center;
+}
+
+.btn-group button {
+  margin: 0 10px;
+}

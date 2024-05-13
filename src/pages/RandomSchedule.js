@@ -8,6 +8,7 @@ export default function RandomSchedule() {
   const [selectedRound, setSelectedRound] = useState(""); // New state for selected round
   const [participatingColleges, setParticipatingColleges] = useState([]);
   const [showColleges, setShowColleges] = useState(false);
+  const [date,Setdate] = useState("");
   const [scheduledMatches, setScheduledMatches] = useState([]);
   const [formData, setFormData] = useState({
     matchDate: "",
@@ -30,6 +31,7 @@ export default function RandomSchedule() {
           throw new Error("Failed to fetch events");
         }
         const data = await response.json();
+        // console.log(data)
         setEvents(data);
       } catch (error) {
         console.error("Error fetching events:", error.message);
@@ -209,7 +211,8 @@ export default function RandomSchedule() {
               value={selectedEvent ? selectedEvent._id : ""}
               onChange={(e) =>
                 handleEventChange(
-                  events.find((event) => event._id === e.target.value)
+                  events.find((event) => event._id === e.target.value),
+                  Setdate((events.find((event) => event._id === e.target.value)).reg_date.split("T")[0])
                 )
               }
             >
@@ -217,6 +220,7 @@ export default function RandomSchedule() {
               {events.map((event) => (
                 <option key={event._id} value={event._id}>
                   {event.event_name}
+                  
                 </option>
               ))}
             </select>
@@ -249,7 +253,7 @@ export default function RandomSchedule() {
               name="matchDate"
               value={formData.matchDate}
               onChange={handleMatchDateChange}
-              min={currentDate}
+              min={date}
             />
           </div>
 
